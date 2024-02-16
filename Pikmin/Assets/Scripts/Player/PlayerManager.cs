@@ -64,9 +64,21 @@ public class PlayerManager : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
 
+        //見やすいように分ける
         _moveVal = context.ReadValue<Vector2>();
 
+        //動くための値を渡す
         _moveClass.MoveMethod(this.gameObject,_moveVal,_speed);
+    }
+
+    public void OnHold(InputAction.CallbackContext context)
+    {
+
+        //見やすいように分ける
+        _moveVal = context.ReadValue<Vector2>();
+
+        //動くための値を渡す
+        _moveClass.MoveMethod(this.gameObject , _moveVal , _speed);
     }
 
     public void OederAttach(InputAction.CallbackContext context)
