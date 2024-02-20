@@ -6,7 +6,7 @@
             "id": "5b0b3524-0260-45d2-a8b6-5259ad6919dc",
             "actions": [
                 {
-                    "name": "Rote",
+                    "name": "CmeraRote",
                     "type": "Value",
                     "id": "929c6879-af75-47fd-a96d-833c50bec847",
                     "expectedControlType": "Axis",
@@ -16,9 +16,9 @@
                 },
                 {
                     "name": "Move",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "635e40f8-8634-4537-a203-f4738f8825cf",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -153,80 +153,91 @@
                 },
                 {
                     "name": "1D Axis",
-                    "id": "c2d7aa9e-7a3d-4c4c-9219-bf0937d30de5",
+                    "id": "67b5a057-cc7f-4489-a7c0-1a25f003ba49",
                     "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Rote",
+                    "action": "CmeraRote",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
-                    "id": "0f637c09-1da6-4063-8d66-113a8bc44ef7",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Rote",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "e4802ff3-3a82-41df-85a9-fe085b87d866",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Rote",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "1D Axis",
-                    "id": "d4ef635c-7a5d-479e-91b9-a9a714643d7b",
-                    "path": "1DAxis",
+                    "name": "Negative",
+                    "id": "fb3b5db5-8fb4-4fa2-b5ff-6d763edef28c",
+                    "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Rote",
+                    "action": "CmeraRote",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Positive",
+                    "id": "e13ea6ef-67a1-4db3-ba5b-737a08ebe19a",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CmeraRote",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Move",
+                    "id": "de861c04-bdf5-48ec-a1af-e65ad55f24b2",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
-                    "id": "a101bbab-6668-4ebc-8e37-4c68f370996a",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Rote",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "5f752310-da73-4757-a92f-274ff1ed23dd",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Rote",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "65196527-9989-497d-b883-8e3fbbe29389",
+                    "name": "up",
+                    "id": "36fe3aa2-88ce-495b-aafc-3f7209fb718c",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "",
                     "action": "Move",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "c8ab4f53-4b02-44f4-9825-c04e1a092b60",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "d18b1de2-3837-4a1e-a390-50363deefcb2",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "c1578fe8-ef4a-491f-9773-78ad50097a04",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },
