@@ -11,13 +11,11 @@ public class Rotate : MonoBehaviour
 {
 
 
-    public void RoteMethod(Transform objTransfrom , Vector3 roteDirection , float roteSpeed)
+    public void RotaMethod(Transform objTransfrom , Quaternion roteDirection , float roteSpeed)
     {
 
-        roteDirection *= roteSpeed * Time.deltaTime;
-
         //回転させる
-        objTransfrom.eulerAngles += roteDirection;
+        objTransfrom.rotation =Quaternion.RotateTowards(objTransfrom.rotation , roteDirection , roteSpeed  * Time.deltaTime) ;
     }
 
 }

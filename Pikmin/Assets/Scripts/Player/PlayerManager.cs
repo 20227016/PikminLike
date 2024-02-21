@@ -43,7 +43,7 @@ public class PlayerManager : MonoBehaviour
     /// <summary>
     /// プレイヤーが向く方向のベクトル
     /// </summary>
-    Vector3 _playerRoteVec = default;
+    Vector3 _playerRotaVec = default;
     #endregion
 
 
@@ -54,16 +54,31 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     void Update()
     {
-
+        
         //ボタンが入力判定の時
         if (_onMove.action.IsPressed())
         {
 
+            //目的の回転ベクトルまでのローテーション
+            Quaternion targetRotation = Quaternion.LookRotation(_playerRotaVec);
+
+            // オブジェクトの回転を取得し、Z軸を基準に-180〜180度の範囲に変換
+            float objectAngle = transform.eulerAngles.y;
+            if (objectAngle > 180f)
+                objectAngle -= 360f;
+
+            // 目標回転角度を取得し、Z軸を基準に-180〜180度の範囲に変換
+            float targetAngle = targetRotation.eulerAngles.y;
+            if (targetAngle > 180f)
+                targetAngle -= 360f;
+
+            // オブジェクトの回転角度と目標回転角度の差分を計算
+            float angleDifference = Mathf.Abs(targetAngle - objectAngle);
+
             //入力方向と向いている方向があった時
-            if (transform.eulerAngles == _playerRoteVec)
+            if (angleDifference <= _moveAngle)
             {
 
-                print("MOVE");
                 //移動
                 _moveClass.MoveMethod(this.transform , _speed);
 
@@ -72,7 +87,7 @@ public class PlayerManager : MonoBehaviour
             {
 
                 //回転
-                _rotateClass.RoteMethod(this.transform , _playerRoteVec , _roteSpeed);
+                _rotateClass.RotaMethod(this.transform , targetRotation , _roteSpeed);
             }
         }
 
@@ -82,28 +97,34 @@ public class PlayerManager : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-
+        //入力値
         Vector2 inputValue = context.ReadValue<Vector2>();
 
+        //入力値のベクトル
         Vector3 inputVec = new Vector3(inputValue.x,0,inputValue.y);
 
-        print(inputVec + "　　入力ベクトル");
+        //0,0,1
+        //print(inputVec + "　　入力ベクトル");
 
         /*
-         * カメラの方向に前と右向きのベクトル（1,0,1)をかけて
-         * XとZ平面の単位ベクトルを取得
+         * カメラの方向に前と右向きのベクトル（1,0,1)をかけて正規化することで
+         * XとZ平面の単位ベクトル（1・0のベクトル）を取得
          */
-        Vector3 cameraRoteVec = Vector3.Scale(_cameraObj.transform.forward , Vector3.forward + Vector3.right ).normalized;
+        Vector3 cameraRotaVec = Vector3.Scale(_cameraObj.transform.forward , Vector3.forward + Vector3.right ).normalized;
 
-        print(cameraRoteVec + "　　カメラベクトル");
+        //0,0,-1
+        //print(cameraRotaVec + "　　カメラベクトル");
 
         /*
          * 入力値とカメラの向きから、移動方向を決定
-         * 
+         * ワールドから見た入力ベクトル取得
          */
-        _playerRoteVec = (cameraRoteVec * inputVec.z) + (_cameraObj.transform.right * inputVec.x);
+        _playerRotaVec = (cameraRotaVec * inputVec.z) + (_cameraObj.transform.right * inputVec.x);
 
-        print(_playerRoteVec + "　　回転方向ベクトル");
+        //0,0-1
+        //print(_playerRotaVec + "　　ワールドから見た入力方向ベクトル");
+
+
     }
 
     public void OnHold(InputAction.CallbackContext context)

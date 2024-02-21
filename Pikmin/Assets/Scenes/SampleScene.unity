@@ -267,9 +267,9 @@ MonoBehaviour:
   _holdClass: {fileID: 862997484}
   _putClass: {fileID: 2051034763}
   _onMove: {fileID: -6844308845977125928, guid: cb30ddb2649071c48b274a54ee780c04, type: 3}
-  _speed: 5
-  _roteSpeed: 2
-  _moveAngle: 10
+  _speed: 10
+  _roteSpeed: 1000
+  _moveAngle: 0
 --- !u!65 &460499502
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -854,13 +854,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 2.5, z: 20}
+  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
+  m_LocalPosition: {x: 0, y: 7, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -874,8 +874,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerObj: {fileID: 460499497}
+  _playerRB: {fileID: 0}
   _playerManagerClass: {fileID: 460499501}
   _onCametaRote: {fileID: 2580011882722775355, guid: cb30ddb2649071c48b274a54ee780c04, type: 3}
+  _cameraHeight: 10
+  _maxDistanceXZ:
+  - 2
+  - 10
+  _minDistanceXZ:
+  - 0
+  - 8
+  _speed: 10
   _roteSpeed: 100
 --- !u!1 &985203466
 GameObject:
@@ -950,8 +959,8 @@ Transform:
   m_GameObject: {fileID: 1016720196}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.037365407, y: 0.24000001, z: 0.88}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalPosition: {x: -0.000000029802322, y: 0.39999998, z: 1}
+  m_LocalScale: {x: 1, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 460499505}
@@ -997,7 +1006,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 18ab2d70a99411a4bbf51510369a9832, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1127,7 +1136,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 20, y: 1, z: 20}
+  m_LocalScale: {x: 50, y: 1, z: 50}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
