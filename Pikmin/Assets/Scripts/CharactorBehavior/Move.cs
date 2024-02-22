@@ -31,7 +31,6 @@ public class Move : MonoBehaviour
 
         //速さで移動する
         objTransfrom.position += objTransfrom.forward * speed * Time.deltaTime;
-
     }
 
 

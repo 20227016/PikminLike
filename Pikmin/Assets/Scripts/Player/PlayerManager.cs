@@ -9,7 +9,7 @@ using System.Collections;
 using UnityEngine.InputSystem;
 
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : MonoBehaviour,IGetValue
 {
 
     #region 変数  
@@ -44,8 +44,19 @@ public class PlayerManager : MonoBehaviour
     /// プレイヤーが向く方向のベクトル
     /// </summary>
     Vector3 _playerRotaVec = default;
+
+
     #endregion
 
+    #region プロパティ
+
+    public float GetSpeed
+    {
+
+        get => _speed;
+    }
+
+    #endregion
 
     #region メソッド
 
