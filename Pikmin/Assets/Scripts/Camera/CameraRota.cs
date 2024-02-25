@@ -14,8 +14,12 @@ public class CameraRota
 
     public void Rotate(Transform cameraTrans , Transform playerTrans , float inputValue)
     {
+
+        Debug.Log (playerTrans.position + "プレイヤー");
+        Debug.Log (cameraTrans.position + "カメラ" +
+            "" );
         //プレイヤーを中心に回転
-        cameraTrans.RotateAround(playerTrans.transform.position , Vector3.up , inputValue * Time.deltaTime);
+        cameraTrans.RotateAround ( playerTrans.position , Vector3.up , inputValue * Time.deltaTime);
     }
   
     #endregion

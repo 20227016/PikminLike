@@ -35,11 +35,13 @@ public class CameraTrack
         //移動先のポジションを作る
 
         //プレイヤーからの距離
-        _targetPos = new Vector3 (0, cameraTrans.position.y - playerTrans.position.y , cameraFixDistans );
+        _targetPos = new Vector3 ( 0 , cameraTrans.position.y - playerTrans.position.y , cameraFixDistans );
 
         //プレイヤーの位置を足し、カメラがあってほしい位置を取得
         _targetPos += playerTrans.position;
 
+        //カメラを更新してしまうため回転できなくなる
+        //カメラを移動
         cameraTrans.position = Vector3.Lerp ( cameraTrans.position , _targetPos , cameraSpeed * Time.deltaTime );
     }
     #endregion
