@@ -34,8 +34,6 @@ public class CameraManager : MonoBehaviour
     private float _cameraHeight = 13f;
     [SerializeField, Tooltip("プレイヤーとカメラの距離")]
     private float _cameraFixDistance = -15;
-    [SerializeField, Tooltip ( "カメラがプレイヤーと等速になる距離。" )]
-    private float _maxSpeedDist = 3f;
     [SerializeField, Tooltip("カメラが回転する速さ")]
     private float _roteSpeed = 5f;
 
@@ -76,7 +74,7 @@ public class CameraManager : MonoBehaviour
         }
 
         //プレイヤーを追跡
-        _cameraMove.Tracking( _playerTrans.transform , this.transform , _cameraSpeed , _cameraFixDistance  , _maxSpeedDist );
+        _cameraMove.Tracking( _playerTrans.transform , this.transform , _cameraSpeed , _cameraFixDistance );
      }
 
 

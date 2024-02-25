@@ -12,10 +12,10 @@ public class CameraRota
 
     #region メソッド  
 
-    public void Rotate(Transform cameraTrans , Transform playerObjTrans , float inputValue)
+    public void Rotate(Transform cameraTrans , Transform playerTrans , float inputValue)
     {
         //プレイヤーを中心に回転
-        cameraTrans.RotateAround(playerObjTrans.transform.position , Vector3.up , inputValue * Time.deltaTime);
+        cameraTrans.RotateAround(playerTrans.transform.position , Vector3.up , inputValue * Time.deltaTime);
     }
   
     #endregion
