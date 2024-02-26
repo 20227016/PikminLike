@@ -10,11 +10,12 @@ using System.Collections;
 
 public class MoveCheck : MonoBehaviour
 {
-    //デバック用
-    Vector3 _origin = default;
-    Vector3 _cubeSize = default;
-    float _dist = default;
+    
+    private Vector3 _origin = default;
+    private Vector3 _cubeSize = default;
+    private float _dist = default;
     Transform _objTransfrom = default;
+
     /// <summary>
     /// 移動方向を調べたRayの情報を返す
     /// </summary>
@@ -29,16 +30,11 @@ public class MoveCheck : MonoBehaviour
         RaycastHit hit = default;
 
         //開始地点のずれ
-        float startOffset = 0.3f;
+        float startOffset = 0.6f;
 
         //Rayの開始地点
         _origin = objTransform.position + objTransform.forward * startOffset;
 
-
-        Debug.Log ( objTransform.forward + "向き" );
-        //Debug.Log ( objTransform.position.z + "オブジェクト");
-        //Debug.Log ( _origin +"　開始地点　");
-        //Debug.Log ( objTransform.position.z - _origin.z + "差" );
         //BoxCastの厚み
         float forwardValue = 0.1f;
         //ボックスキャストのサイズ
@@ -49,9 +45,9 @@ public class MoveCheck : MonoBehaviour
 
 
         //BoxCastを打つ
-        Physics.BoxCast ( _origin , _cubeSize , objTransform.TransformDirection ( Vector3.forward ) , out hit , Quaternion.identity , _dist );
+        Physics.BoxCast ( _origin , _cubeSize , objTransform.forward , out hit , objTransform.rotation , _dist );
 
-        Debug.DrawLine ( _origin , _origin + objTransform.forward * 5 , Color.red );
+
 
         return hit;
     }
@@ -68,7 +64,7 @@ public class MoveCheck : MonoBehaviour
             return;
         }
 
-        Gizmos.DrawWireCube ( _origin + _objTransfrom.TransformDirection ( Vector3.forward ) * _dist, _cubeSize );
+        Gizmos.DrawWireCube ( _origin , _cubeSize );
     }
 
 
