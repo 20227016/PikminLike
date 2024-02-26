@@ -21,8 +21,9 @@ public class CameraTrack
     /// <param name="cameraSpeed">プレイヤーと等速</param>
     public void Tracking(Transform playerTrans ,Transform cameraTrans, Transform targetTrans , float cameraSpeed)
     {
+        const float CONST_DOWN_SPEED = 0.3f;
 
-        cameraSpeed *= 0.3f;
+        cameraSpeed *= CONST_DOWN_SPEED;
 
         //カメラを移動
         cameraTrans.position = Vector3.Lerp ( cameraTrans.position , targetTrans.position , cameraSpeed * Time.deltaTime );

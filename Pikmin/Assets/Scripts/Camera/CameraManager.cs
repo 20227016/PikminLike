@@ -36,6 +36,17 @@ public class CameraManager : MonoBehaviour
     private float _cameraFixDistance = -15;
     [SerializeField, Tooltip("カメラが回転する速さ")]
     private float _roteSpeed = 5f;
+    [SerializeField, Tooltip ( "カメラがプレイヤーを見なくなる許容値" )]
+    private float _roteTolerance = 5f;
+
+    //今のフレームの位置
+    private Vector3 _nowPos = default;
+
+    //１つ前のフレームの位置 
+    private Vector3 _lastPos = default;
+
+    //前のフレームとの差
+    private Vector3 _offsetPos = default;
 
     //プレイヤーの速さ
     private float _cameraSpeed = default; 
@@ -46,6 +57,9 @@ public class CameraManager : MonoBehaviour
     //カメラ移動の目的の位置
     private Transform _targetTrans = default;
 
+    //カメラがまだ回っている判定
+    private bool _isRote = default;
+
     #endregion
 
     #region メソッド  
@@ -54,14 +68,23 @@ public class CameraManager : MonoBehaviour
     {
         //インターフェースからプレイヤーの速さを取得
         _cameraSpeed = _playerTrans.gameObject.GetComponent<IGetValue> ().GetSpeed;
+        //カメらの初期の位置取得
         transform.position = new Vector3(_playerTrans.position.x , _cameraHeight, _cameraFixDistance);
+        //プレイヤーのほうを見る
         this.transform.LookAt ( _playerTrans );
+        //トランスフォームの実体を作る
         _targetTrans = new GameObject ( "TargetObj" ).transform;
+        //カメラのトランスフォームをコピー
         _cameraTargetClass.CopyTransformValues (this.transform);
+        //今のフレームの位置と最後のフレームの位置を更新
+        _nowPos = this.transform.position;
+        _lastPos = this.transform.position;
+        //前のフレームとの位置の差を更新
+        _offsetPos = _nowPos - _lastPos;
     }
 
     /// <summary>  
-    /// 更新処理  
+    /// ターゲットを作るクラスの呼び出しと追いかけるクラスの呼び出し
     /// </summary>  
     void Update ()
      {
@@ -69,18 +92,48 @@ public class CameraManager : MonoBehaviour
         //カメラの移動先を取得
         _targetTrans = _cameraTargetClass.Target (  _playerTrans , _targetTrans , _inputValue );
 
+        //  現在のフレームの位置を取得
+        _nowPos = this.transform.position;
+
         //回転するためのボタンを押した時
-        if (_onCametaRote.action.IsPressed ())
+        if (_onCametaRote.action.IsInProgress ())
         {
 
-            //プレイヤーを追う
-            this.transform.LookAt ( _playerTrans );
+            //回っている判定にする
+            _isRote = true;
         }
+
+        //回っている判定の時
+        if (_isRote == true)
+        {
+
+            //前のフレームとの位置の差を更新
+            _offsetPos =  _nowPos - _lastPos;
+
+            //許容値を超えた時
+            if (Mathf.Abs(_offsetPos.x) > _roteTolerance && Mathf.Abs ( _offsetPos.z ) > _roteTolerance)
+            {
+
+                //プレイヤーを追う
+                this.transform.LookAt ( _playerTrans );
+            }
+            else
+            {
+
+                //回っていない判定にする
+                _isRote = false;
+            }
+
+        }
+
 
         //プレイヤーを追跡
         _cameraMoveClass.Tracking ( _playerTrans.transform , this.transform ,_targetTrans , _cameraSpeed);
-        
-     }
+
+        //現在のフレームの位置をまえのフレームとする
+        _lastPos = _nowPos;
+
+    }
 
 
 

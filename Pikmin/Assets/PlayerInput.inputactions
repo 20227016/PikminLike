@@ -207,7 +207,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "negative",
+                    "name": "positive",
                     "id": "c84f80f6-d046-4a02-a6c7-e9d260db98cb",
                     "path": "<Gamepad>/rightStick/right",
                     "interactions": "",

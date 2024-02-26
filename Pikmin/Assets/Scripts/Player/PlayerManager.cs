@@ -20,8 +20,10 @@ public class PlayerManager : MonoBehaviour, IGetValue
     [Header ( "スクリプト" )]
     [SerializeField, Tooltip ( "Moveスクリプト" )]
     private Move _moveClass = default;
-    [SerializeField, Tooltip ( "Moveスクリプト" )]
+    [SerializeField, Tooltip ( "Rotateスクリプト" )]
     private Rotate _rotateClass = default;
+    [SerializeField, Tooltip ( "MoveCheckスクリプト" )]
+    private MoveCheck _moveCheckClass = default;
     [SerializeField, Tooltip ( "Holdスクリプト" )]
     private Hold _holdClass = default;
     [SerializeField, Tooltip ( "Putスクリプト" )]
@@ -40,12 +42,28 @@ public class PlayerManager : MonoBehaviour, IGetValue
     [SerializeField, Tooltip ( "移動する角度" )]
     private float _moveAngle = 10f;
 
+
+    private PlayerStatus _enumPlayerStatus = PlayerStatus.None;
+
+    private PlayerOederStatus _enumPlayerOederStatus = PlayerOederStatus.None;
+
+    private SelectRobotStatus _enumSelectRobotStatus = SelectRobotStatus.None;
+
+
     /// <summary>
     /// プレイヤーが向く方向のベクトル
     /// </summary>
-    Vector3 _playerRotaVec = default;
+    private Vector3 _playerRotaVec = default;
 
+    /// <summary>
+    /// 連れているロボットの量
+    /// </summary>
+    private int _robotCount = default;
 
+    /// <summary>
+    /// 目の前のオブジェクト
+    /// </summary>
+    private RaycastHit _hit = default;
     #endregion
 
     #region プロパティ
@@ -61,41 +79,29 @@ public class PlayerManager : MonoBehaviour, IGetValue
     #region メソッド
 
     /// <summary>
-    /// 更新処理
+    /// 回転と移動の呼び出し
     /// </summary>
     void Update()
     {
+        
 
-        //ボタンが入力判定の時
+
+        //移動ボタンが入力判定の時
         if (_onMove.action.IsPressed ())
         {
+
+            //移動先の確認
+            _hit = _moveCheckClass.Check ( this.gameObject.transform);
 
             //目的の回転ベクトルを元に、プレイヤーの方向を向く回転を取得
             Quaternion targetRotation = Quaternion.LookRotation ( _playerRotaVec );
 
             // カメラの回転を取得し、Z軸を基準に-180〜180度の範囲に変換
             float objectAngle = transform.eulerAngles.y;
-
-            ////オブジェクトの角度が180度を超えたとき
-            //if (objectAngle > 180f)
-            //{
-
-            //    //
-            //    objectAngle -= 360f;
-            //}
               
 
             // 目標回転角度を取得し、Z軸を基準に-180〜180度の範囲に変換
             float targetAngle = targetRotation.eulerAngles.y;
-
-            ////オブジェクトの角度が180度を超えたとき
-            //if (targetAngle > 180f)
-            //{
-
-            //    //
-            //    targetAngle -= 360f;
-            //}
-                
 
             // オブジェクトの回転角度と目標回転角度の差分を計算
             float angleDifference = Mathf.Abs ( targetAngle - objectAngle );
@@ -104,9 +110,13 @@ public class PlayerManager : MonoBehaviour, IGetValue
             if (angleDifference <= _moveAngle)
             {
 
-                //移動
-                _moveClass.MoveMethod ( this.transform , _speed );
+                //前にオブジェクトがないとき
+                if (_hit.collider == false)
+                {
 
+                    //移動
+                    _moveClass.MoveMethod ( this.transform , _speed );
+                }
             }
             else
             {
@@ -116,6 +126,19 @@ public class PlayerManager : MonoBehaviour, IGetValue
             }
         }
 
+        if (_robotCount <= 0)
+        {
+        
+            
+            
+        
+        
+        
+        
+        
+        
+        
+        }
 
     }
 
