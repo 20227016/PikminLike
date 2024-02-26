@@ -9,17 +9,6 @@ using UnityEngine;
 public class CameraTrack 
 {
 
-    /// <summary>
-    /// プレイヤー近くの時の速度
-    /// </summary>
-    private Vector3 _targetPos;
-
-    public CameraTrack()
-    {
-
-        _targetPos = default;
-    }
-
     #region メソッド  
 
 
@@ -28,21 +17,17 @@ public class CameraTrack
     /// </summary>
     /// <param name="playerTrans">プレイヤーのトランスフォーム</param>
     /// <param name="cameraTrans">カメラのトランスフォーム</param>
+    /// /// <param name="targetTrans">移動先</param>
     /// <param name="cameraSpeed">プレイヤーと等速</param>
-    /// /// <param name="cameraFixDistans">カメラとプレイヤーの距離</param>
-    public void Tracking(Transform playerTrans , Transform cameraTrans , float cameraSpeed , float cameraFixDistans )
+    public void Tracking(Transform playerTrans ,Transform cameraTrans, Transform targetTrans , float cameraSpeed)
     {
-        //移動先のポジションを作る
 
-        //プレイヤーからの距離
-        _targetPos = new Vector3 ( 0 , cameraTrans.position.y - playerTrans.position.y , cameraFixDistans );
+        cameraSpeed *= 0.3f;
 
-        //プレイヤーの位置を足し、カメラがあってほしい位置を取得
-        _targetPos += playerTrans.position;
-
-        //カメラを更新してしまうため回転できなくなる
         //カメラを移動
-        cameraTrans.position = Vector3.Lerp ( cameraTrans.position , _targetPos , cameraSpeed * Time.deltaTime );
+        cameraTrans.position = Vector3.Lerp ( cameraTrans.position , targetTrans.position , cameraSpeed * Time.deltaTime );
+
+
     }
     #endregion
 }

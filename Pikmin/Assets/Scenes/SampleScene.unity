@@ -876,7 +876,7 @@ MonoBehaviour:
   _playerTrans: {fileID: 460499505}
   _playerManagerClass: {fileID: 460499501}
   _onCametaRote: {fileID: 2580011882722775355, guid: cb30ddb2649071c48b274a54ee780c04, type: 3}
-  _cameraHeight: 13
+  _cameraHeight: 10
   _cameraFixDistance: -15
   _roteSpeed: 100
 --- !u!1 &985203466

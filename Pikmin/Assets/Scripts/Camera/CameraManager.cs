@@ -14,8 +14,8 @@ public class CameraManager : MonoBehaviour
     #region 変数  
 
     //インスタンス化
-    CameraTrack _cameraMove = new CameraTrack();
-    CameraRota _cameraRota = new CameraRota();
+    CameraTrack _cameraMoveClass = new CameraTrack();
+    CameraTarget _cameraTargetClass = new CameraTarget();
 
     [Header("オブジェクト")]
     [SerializeField, Tooltip("PlayerのTransform")]
@@ -31,8 +31,8 @@ public class CameraManager : MonoBehaviour
 
     [Header("ステータス")]
     [SerializeField, Tooltip("プレイヤーを基準としたカメラの高さ")]
-    private float _cameraHeight = 13f;
-    [SerializeField, Tooltip("プレイヤーとカメラの距離")]
+    private float _cameraHeight = 10f;
+    [SerializeField, Tooltip("開始時のプレイヤーとカメラの距離")]
     private float _cameraFixDistance = -15;
     [SerializeField, Tooltip("カメラが回転する速さ")]
     private float _roteSpeed = 5f;
@@ -40,12 +40,11 @@ public class CameraManager : MonoBehaviour
     //プレイヤーの速さ
     private float _cameraSpeed = default; 
 
-    //カメラが目指す位置
-    private Vector3 _cameraTargetPos = default;
-
     //インプットコールバックの値
     private float _inputValue = default;
 
+    //カメラ移動の目的の位置
+    private Transform _targetTrans = default;
 
     #endregion
 
@@ -56,7 +55,9 @@ public class CameraManager : MonoBehaviour
         //インターフェースからプレイヤーの速さを取得
         _cameraSpeed = _playerTrans.gameObject.GetComponent<IGetValue> ().GetSpeed;
         transform.position = new Vector3(_playerTrans.position.x , _cameraHeight, _cameraFixDistance);
-        transform.LookAt(transform.position);
+        this.transform.LookAt ( _playerTrans );
+        _targetTrans = new GameObject ( "TargetObj" ).transform;
+        _cameraTargetClass.CopyTransformValues (this.transform);
     }
 
     /// <summary>  
@@ -65,16 +66,20 @@ public class CameraManager : MonoBehaviour
     void Update ()
      {
 
-        //入力している時
-        if (_onCametaRote.action.IsInProgress())
+        //カメラの移動先を取得
+        _targetTrans = _cameraTargetClass.Target (  _playerTrans , _targetTrans , _inputValue );
+
+        //回転するためのボタンを押した時
+        if (_onCametaRote.action.IsPressed ())
         {
 
-            //カメラを回転させる
-            _cameraRota.Rotate(this.transform , _playerTrans , _inputValue);
+            //プレイヤーを追う
+            this.transform.LookAt ( _playerTrans );
         }
 
         //プレイヤーを追跡
-        _cameraMove.Tracking( _playerTrans.transform , this.transform , _cameraSpeed , _cameraFixDistance );
+        _cameraMoveClass.Tracking ( _playerTrans.transform , this.transform ,_targetTrans , _cameraSpeed);
+        
      }
 
 
@@ -85,7 +90,6 @@ public class CameraManager : MonoBehaviour
         //入力値を取得
         _inputValue = context.ReadValue<float>() * _roteSpeed ;
     }
-
 
 
     #endregion
