@@ -24,9 +24,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Hold",
+                    "name": "HoldOrAttahc",
                     "type": "Button",
                     "id": "7ed05250-3cf1-4dcb-ae77-f85eca212c10",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PutOrCall",
+                    "type": "Button",
+                    "id": "118485df-b65d-4bed-91b9-38cdeee5a6b6",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -146,8 +155,8 @@
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Hold",
+                    "groups": "Keyboard&Mouse",
+                    "action": "HoldOrAttahc",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -326,6 +335,17 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "626032f6-cef0-4aa3-814f-144611327c2f",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "PutOrCall",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

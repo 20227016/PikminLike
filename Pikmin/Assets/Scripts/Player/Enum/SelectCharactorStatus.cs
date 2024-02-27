@@ -1,4 +1,4 @@
-public enum SelectRobotStatus
+public enum SelectCharactorStatus
 {
     None,
     LWRobot,

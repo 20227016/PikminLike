@@ -23,7 +23,7 @@ public class CameraManager : MonoBehaviour
 
     [Header("スクリプト")]
     [SerializeField, Tooltip("Moveスクリプト")]
-    private PlayerManager _playerManagerClass = default;
+    private PlayerManagerClass _playerManagerClass = default;
 
     [Header("InputSystem")]
     [SerializeField, Tooltip("InputSystemのRoteが入る")]
