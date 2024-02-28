@@ -20,20 +20,21 @@ public class HoldClass : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="carryWeight">呼び出したクラスの持てる重さ</param>
+    /// <param name="muscleStrength">呼び出したクラスの持てる重さ</param>
     /// <param name="speed">呼び出したクラスの速さ</param>
     /// <param name="hit">目の前にある荷物の情報が入っている</param>
-    /// <returns></returns>
-    public (List<Vector3> , float) Holding (int carryWeight , float speed , RaycastHit hit)
+    /// <returns>持てるかの判断を返す</returns>
+    public bool Holding (int muscleStrength , float speed , Transform hitObjTrans)
      {
 
-        //目の前にある荷物の Luggageクラス
-        LuggageManagerClass luggageManagerClass = hit.collider.gameObject.GetComponent<LuggageManagerClass>();
+        //持った荷物の Luggageクラス
+        LuggageManagerClass luggageManagerClass = hitObjTrans.GetComponent<LuggageManagerClass> ();
 
-        //目の前にある荷物を運ぶ（ルートと運ぶ速さを取得）
-        luggageManagerClass.BeHeld (carryWeight , speed);
+        //持った荷物を運ぶ（持てるかを取得）
+        bool isBeHeld =luggageManagerClass.BeHeld (muscleStrength , speed);
 
-        return (_root , speed);
+        //持てるかの判断を返す
+        return isBeHeld;
      }
   
     #endregion

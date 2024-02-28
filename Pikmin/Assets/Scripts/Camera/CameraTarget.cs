@@ -26,7 +26,7 @@ public class CameraTarget
     /// <param name="targetTrans">ターゲットのトランスフォーム</param>
     /// <param name="cameraTaransCopy">カメラのトランスフォームのコピー</param>
     /// <param name="inputValue">入力値</param>
-    /// <returns></returns>
+    /// <returns>移動先</returns>
     public Transform Target( Transform playerTrans ,Transform targetTrans, float inputValue)
     {
 

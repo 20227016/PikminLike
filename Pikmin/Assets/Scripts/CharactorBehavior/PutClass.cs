@@ -13,18 +13,17 @@ public class PutClass : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="carryWeight">呼び出したクラスの持てる重さ</param>
+    /// <param name="muscleStrength">呼び出したクラスの持てる重さ</param>
     /// <param name="speed">呼び出したクラスの速さ</param>
     /// <param name="hit">目の前にある荷物の情報が入っている</param>
-    /// <returns></returns>
-    public void Put (int carryWeight , float speed , RaycastHit hit)
+    public void Put (int muscleStrength , float speed , Transform hitObjTrans)
     {
 
-        //目の前にある荷物の Luggageクラス
-        LuggageManagerClass luggageManagerClass = hit.collider.gameObject.GetComponent<LuggageManagerClass> ();
+        //置いた荷物の Luggageクラス
+        LuggageManagerClass luggageManagerClass = hitObjTrans.GetComponent<LuggageManagerClass> ();
 
-        //目の前にある荷物を運ぶ（ルートと運ぶ速さを取得）
-        luggageManagerClass.BePlaced( carryWeight , speed );
+        //置いた荷物を運ぶ（ルートと運ぶ速さを取得）
+        luggageManagerClass.BePlaced( muscleStrength , speed );
 
     }
 }

@@ -43,7 +43,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     [SerializeField, Tooltip ( "回転する速さ" )]
     private float _roteSpeed = 10f;
     [SerializeField, Tooltip ( "持てる重さ" )]
-    private int _carryWeight = 3;
+    private int _muscleStrength = 3;
 
     /// <summary>
     /// プレイヤーの状態
@@ -67,19 +67,9 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     private RaycastHit _hit = default;
 
     /// <summary>
-    /// 荷物を持った時の移動ルート
-    /// </summary>
-    private List<Vector3> _root = default;
-
-    /// <summary>
     /// プレイヤーが向く方向のベクトル
     /// </summary>
     private Vector3 _rotaVec = default;
-
-    /// <summary>
-    /// 運ぶ速さ
-    /// </summary>
-    private float _carrySpeed = default;
 
     /// <summary>
     /// 連れているロボットの量
@@ -128,18 +118,11 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
                 if (_hit.collider == true && _hit.collider.CompareTag ( "Luggage" ))
                 {
 
-                    //ホールドボタンが押されたら
-                    if (_onHoldOrAttahc.action.IsPressed ())
+                    //持つボタンが押されたらかつ何も持っていなかったら
+                    if (_onHoldOrAttahc.action.WasPressedThisFrame () && _enumPlayerStatus == PlayerStatus.Put)
                     {
-
-                        //持っている判定にする
-                        _enumPlayerStatus = PlayerStatus.Hold;
-
-                        //荷物をもつ(ルートとスピードを取得)あとでSpeedメモリーを作り置いたときに代入
-                        _holdClass.Holding ( _carryWeight , _speed , _hit );
-
-                        //持った荷物を親とする
-                        transform.SetParent ( _hit.transform );
+                        //荷物を持つ処理
+                        Hold ();
                     }
                 }
 
@@ -148,18 +131,12 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
             //モノを持っている状態
             case PlayerStatus.Hold:
 
-                //プットボタンが押されたら
-                if (_onPutOrCall.action.IsInProgress())
+                //置くボタンが押されたら
+                if (_onPutOrCall.action.WasPressedThisFrame ())
                 {
 
-                    //持っている判定にする
-                    _enumPlayerStatus = PlayerStatus.Put;
-
-                    //荷物を離す
-                    _putClass.Put ( _carryWeight , _speed , _hit );
-
-                    //親となっている荷物を離す
-                    transform.SetParent ( null );
+                    //荷物を置く処理
+                    Put ();
                 }
 
                 break;
@@ -195,12 +172,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
         _rotaVec = (cameraRotaVec * inputVec.z) + (_cameraObj.transform.right * inputVec.x);
 
     }
-
-    //public void OederCall(InputAction.CallbackContext context)
-    //{
-
-    //    Debug.Log ( "呼ぶ入力" );
-    //}
 
     /// <summary>
     /// 移動の管理
@@ -242,5 +213,58 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
             _rotateClass.Rotate ( this.transform , targetRotation , _roteSpeed );
         }
     }
+
+
+    /// <summary>
+    /// 荷物を持つ処理
+    /// </summary>
+    private void Hold()
+    {
+
+        //持っている判定にする
+        _enumPlayerStatus = PlayerStatus.Hold;
+
+        //持った荷物のオブジェクトのトランスフォームを取得
+        Transform luggagTrans = _hit.collider.gameObject.transform;
+
+        //荷物をもつ(ルートとスピードを取得)あとでSpeedメモリーを作り置いたときに代入
+        bool isBeHeld = _holdClass.Holding ( _muscleStrength , _speed , luggagTrans );
+
+        //荷物を持っている人数が最大に達していなくて持てる場合
+        if (isBeHeld == true)
+        {
+
+            //持った荷物を親とする
+            transform.SetParent ( _hit.transform );
+        }
+        //荷物を持っている人数が最大に達していて持てない場合
+        else
+        {
+
+            //荷物を置く
+            Put();
+        }
+
+    }
+
+    /// <summary>
+    /// 荷物を置く処理
+    /// </summary>
+    private void Put()
+    {
+
+        //持っている判定にする
+        _enumPlayerStatus = PlayerStatus.Put;
+
+        //持った荷物のオブジェクトのトランスフォームを取得
+        Transform luggagTrans = _hit.collider.gameObject.transform;
+
+        //荷物を離す
+        _putClass.Put ( _muscleStrength , _speed , luggagTrans );
+
+        //親となっている荷物を離す
+        transform.SetParent ( null );
+    }
+
     #endregion
 }

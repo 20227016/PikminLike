@@ -16,7 +16,9 @@ public class LuggageManagerClass : MonoBehaviour
     [SerializeField, Tooltip ( "荷物の重さ" )]
     private int _weight = default;
     [SerializeField, Tooltip ( "持ち上げる高さ" )]
-    private float _liftHeightweight = 0.7f;
+    private float _liftHeight = 0.7f;
+    [SerializeField, Tooltip ( "持ち上げられる人数" )]
+    private int _maxHave = 4;
 
     /// <summary>
     /// ルートを決めるクラス
@@ -29,17 +31,24 @@ public class LuggageManagerClass : MonoBehaviour
     private List<Vector3> _root = new List<Vector3> { };
 
     /// <summary>
-    /// 
+    /// 移動したい方向に向かうための疑似入力値が入る
     /// </summary>
     private Vector3 _moveValue = default;
 
-    //運べるようになった判定
-    private bool _isCarray;
+    /// <summary>
+    /// 運べるようになった判定
+    /// </summary>
+    private bool _isCarray = default;
 
     /// <summary>
-    /// 持たれている数
+    /// 持っているオブジェクトの筋力合計
     /// </summary>
-    private int _heldCount = default;
+    private int _sumMuscleStrength = default;
+
+    /// <summary>
+    /// 持っているオブジェクトの数
+    /// </summary>
+    private int _haveCount = default;
 
     /// <summary>
     /// 運ばれる速さ
@@ -49,7 +58,7 @@ public class LuggageManagerClass : MonoBehaviour
     /// <summary>
     /// 運ばれる速さのメモリー
     /// </summary>
-    private float _carraySpeedMemory = default;
+    private float _sumCarraySpeed = default;
 
     #endregion
 
@@ -59,7 +68,7 @@ public class LuggageManagerClass : MonoBehaviour
     {
 
         //スクリプト取得
-        _rootingClass = GameObject.Find ( "Rooting" ).GetComponent<RootClass> ();
+        _rootingClass = GameObject.Find ( "Rooting" ).GetComponent<RootClass>();
         //移動ルートを取得
         _root　=  _rootingClass.Rooting ( this.transform , _root);
     }
@@ -70,12 +79,11 @@ public class LuggageManagerClass : MonoBehaviour
     void Update ()
     {
 
-        //持たれている数が重さを上回った時
+        //持っているオブジェクトの合計筋力が重さを上回った時
         if (_isCarray)
         {
 
-            //重さで割った加算してきた速さを入れる
-            _carraySpeed = _carraySpeedMemory / _weight;
+            //ルート道理に運ぶ処理
 
         }
 
@@ -84,52 +92,75 @@ public class LuggageManagerClass : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="carryCapacity">運搬容量</param>
-    /// <param name="carryCapacity">荷物を持ったキャラクターの速さ</param>
-    public void BeHeld(int carryWeight , float speed)
+    /// <param name="muscleStrength">持っているオブジェクトの筋力</param>
+    /// <param name="speed">荷物を持ったキャラクターの速さ</param>
+    public bool BeHeld(int muscleStrength , float speed)
     {
-        Debug.Log ( "Hold" );
-
-        //持たれている数を足す
-        _heldCount += carryWeight;
+        Debug.Log ( "持つ" );
+        //持っているオブジェクトの数を加算
+        _haveCount++;
+        //持っているオブジェクトの筋力の合計を加算
+        _sumMuscleStrength += muscleStrength;
         //持っているオブジェクトの速さを加算
-        _carraySpeedMemory += speed;
+        _sumCarraySpeed += speed;
 
-        //持たれている数が重さを上回った時
-        if (_weight <= _heldCount)
+        //持たれている数が持たれる最大数を超えたら
+        if (_haveCount > _maxHave)
+        {
+            Debug.Log ( _haveCount + "持ってる数" );
+            Debug.Log ( _maxHave +"最大" );
+            Debug.Log ( "もう持てない" );
+            //もう持てない判定を返す
+            return false;
+        }
+
+        Debug.Log ( "まだ持てる" );
+
+        //持っているオブジェクトの合計筋力が重さを上回った時時
+        if (_weight <= _sumMuscleStrength)
         {
 
+            Debug.Log ("持ち上げる");
             //運ばれてる判定にする
             _isCarray = true;
 
             //持ち上げられる処理
-            this.transform.position = this.transform.position + Vector3.up * _liftHeightweight;
+            this.transform.position = this.transform.position + ( Vector3.up * _liftHeight );
 
-            print ( "持ち上げられる" );
+            //重さで割った加算してきた速さを入れる
+            _carraySpeed = _sumCarraySpeed / _weight;
         }
 
+        //まだ持てる判定を返す
+        return true;
     }
 
-    public void BePlaced(int carryWeight , float speed)
+    public void BePlaced(int muscleStrength , float speed)
     {
-        Debug.Log ( "Put" );
-
-        //持たれている数を減らす
-        _heldCount -= carryWeight;
+        Debug.Log ( "置く" );
+        //持っているオブジェクトの数を減算
+        _haveCount--;
+        //持っているオブジェクトの筋力の合計を減算
+        _sumMuscleStrength -= muscleStrength;
         //持っているオブジェクトの速さを減算
-        _carraySpeedMemory -= speed;
+        _sumCarraySpeed -= speed;
 
-        //持たれている数が重さを下回った時
-        if (_weight >= _heldCount)
+        //運ばれている判定のとき
+        if (_isCarray)
         {
 
-            //運ばれてない判定にする
-            _isCarray = false;
+            //持っているオブジェクトの合計筋力が重さを下回った時
+            if (_weight >= _sumMuscleStrength)
+            {
+                Debug.Log ( "降ろす" );
+                //運ばれてない判定にする
+                _isCarray = false;
 
-            //降ろされる処理
-            this.transform.position = this.transform.position - Vector3.up * _liftHeightweight;
-            print ( "降ろされる" );
+                //降ろされる処理
+                this.transform.position = this.transform.position - (Vector3.up * _liftHeight);
+            }
         }
+       
     }
 
     #endregion
