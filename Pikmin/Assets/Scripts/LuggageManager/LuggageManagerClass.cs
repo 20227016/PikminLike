@@ -5,6 +5,7 @@
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
+using UnityEngine.AI;
 using System.Collections.Generic;
 
 public class LuggageManagerClass : MonoBehaviour
@@ -12,6 +13,9 @@ public class LuggageManagerClass : MonoBehaviour
 
     #region 変数  
 
+    [Header ( "スクリプト" )]
+    [SerializeField, Tooltip ( "Carrayのスクリプト" )]
+    private CarrayClass _carrayClass = default;
     [Header ( "ステータス" )]
     [SerializeField, Tooltip ( "荷物の重さ" )]
     private int _weight = default;
@@ -21,19 +25,9 @@ public class LuggageManagerClass : MonoBehaviour
     private int _maxHave = 4;
 
     /// <summary>
-    /// ルートを決めるクラス
+    /// 自分のAgentが入る
     /// </summary>
-    private RootClass _rootingClass = default;
-
-    /// <summary>
-    /// ルートが入る
-    /// </summary>
-    private List<Vector3> _root = new List<Vector3> { };
-
-    /// <summary>
-    /// 移動したい方向に向かうための疑似入力値が入る
-    /// </summary>
-    private Vector3 _moveValue = default;
+    private NavMeshAgent _agent = default;
 
     /// <summary>
     /// 運べるようになった判定
@@ -67,33 +61,15 @@ public class LuggageManagerClass : MonoBehaviour
     private void Start()
     {
 
-        //スクリプト取得
-        _rootingClass = GameObject.Find ( "Rooting" ).GetComponent<RootClass>();
-        //移動ルートを取得
-        _root　=  _rootingClass.Rooting ( this.transform , _root);
-    }
-
-    /// <summary>  
-    /// 更新処理  
-    /// </summary>  
-    void Update ()
-    {
-
-        //持っているオブジェクトの合計筋力が重さを上回った時
-        if (_isCarray)
-        {
-
-            //ルート道理に運ぶ処理
-
-        }
-
+        _agent = this.transform.GetComponent<NavMeshAgent> ();
     }
 
     /// <summary>
-    /// 
+    /// オブジェクトを持つ処理
     /// </summary>
     /// <param name="muscleStrength">持っているオブジェクトの筋力</param>
     /// <param name="speed">荷物を持ったキャラクターの速さ</param>
+    /// <returns>持てるかの判断</returns>
     public bool BeHeld(int muscleStrength , float speed)
     {
         Debug.Log ( "持つ" );
@@ -129,6 +105,9 @@ public class LuggageManagerClass : MonoBehaviour
 
             //重さで割った加算してきた速さを入れる
             _carraySpeed = _sumCarraySpeed / _weight;
+
+            //NavMeshで運ぶ処理
+            _carrayClass.OnCarray ( this.transform , _agent , _carraySpeed );
         }
 
         //まだ持てる判定を返す
@@ -158,6 +137,9 @@ public class LuggageManagerClass : MonoBehaviour
 
                 //降ろされる処理
                 this.transform.position = this.transform.position - (Vector3.up * _liftHeight);
+
+                //NavMeshを止める処理
+                _carrayClass.OutCarray ( _agent );
             }
         }
        

@@ -17,17 +17,17 @@ public class CameraManagerButton : MonoBehaviour
     CameraTrack _cameraMoveClass = new CameraTrack ();
     CameraTarget _cameraTargetClass = new CameraTarget ();
 
-    [Header ( "オブジェクト" )]
+    [Header ( "Transform" )]
     [SerializeField, Tooltip ( "PlayerのTransform" )]
     private Transform _playerTrans = default;
-
-    [Header ( "スクリプト" )]
-    [SerializeField, Tooltip ( "Moveスクリプト" )]
-    private PlayerManagerClass _playerManagerClass = default;
 
     [Header ( "InputSystem" )]
     [SerializeField, Tooltip ( "InputSystemのRoteが入る" )]
     private InputActionReference _onCametaRote = default;
+
+    [Header ( "スクリプト" )]
+    [SerializeField, Tooltip ( "Moveスクリプト" )]
+    private PlayerManagerClass _playerManagerClass = default;
 
     [Header ( "ステータス" )]
     [SerializeField, Tooltip ( "プレイヤーを基準としたカメラの高さ" )]
