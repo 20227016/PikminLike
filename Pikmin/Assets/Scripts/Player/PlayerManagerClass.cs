@@ -59,7 +59,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     /// <summary>
     /// プレイヤーが選んでいるキャラクター
     /// </summary>
-    private SelectCharactorStatus _enumSelectCharactorStatus = SelectCharactorStatus.None;
+    private SelectCharactorStatus _enumSelectCharactorStatus = SelectCharactorStatus.Player;
 
     /// <summary>
     /// 目の前のオブジェクト
@@ -98,50 +98,24 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     void Update()
     {
 
-        //プレイヤーのステータスによる処理分け
-        switch (_enumPlayerStatus)
+        //選んでいるキャラクターのステータスによる処理分け
+        switch (_enumSelectCharactorStatus)
         {
+            case SelectCharactorStatus.Player:
 
-            //モノを置いている状態
-            case PlayerStatus.Put:
+                //プレイヤーの処理
+                PlayerProcess ();
+                break;
+            case SelectCharactorStatus.NormalRobot:
 
-
-                //移動ボタンが入力判定の時
-                if (_onMove.action.IsPressed ())
-                {
-
-                    //移動の管理
-                    MoveManagment ();
-                }
-
-                //目の前に荷物があった時
-                if (_hit.collider == true && _hit.collider.CompareTag ( "Luggage" ))
-                {
-
-                    //持つボタンが押されたらかつ何も持っていなかったら
-                    if (_onHoldOrAttahc.action.WasPressedThisFrame () && _enumPlayerStatus == PlayerStatus.Put)
-                    {
-                        //荷物を持つ処理
-                        Hold ();
-                    }
-                }
 
                 break;
 
-            //モノを持っている状態
-            case PlayerStatus.Hold:
-
-                //置くボタンが押されたら
-                if (_onPutOrCall.action.WasPressedThisFrame ())
-                {
-
-                    //荷物を置く処理
-                    Put ();
-                }
+            case SelectCharactorStatus.BombRobot:
 
                 break;
-
         }
+
 
     }
 
@@ -214,6 +188,57 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
         }
     }
 
+    /// <summary>
+    /// プレイヤーが選ばれているときの処理
+    /// </summary>
+    private void PlayerProcess()
+    {
+
+        //プレイヤーのステータスによる処理分け
+        switch (_enumPlayerStatus)
+        {
+
+            //モノを置いている状態
+            case PlayerStatus.Put:
+
+
+                //移動ボタンが入力判定の時
+                if (_onMove.action.IsPressed ())
+                {
+
+                    //移動の管理
+                    MoveManagment ();
+                }
+
+                //目の前に荷物があった時
+                if (_hit.collider == true && _hit.collider.CompareTag ( "Luggage" ))
+                {
+
+                    //持つボタンが押されたらかつ何も持っていなかったら
+                    if (_onHoldOrAttahc.action.WasPressedThisFrame ())
+                    {
+                        //荷物を持つ処理
+                        Hold ();
+                    }
+                }
+
+                break;
+
+            //モノを持っている状態
+            case PlayerStatus.Hold:
+
+                //置くボタンが押されたら
+                if (_onPutOrCall.action.WasPressedThisFrame ())
+                {
+
+                    //荷物を置く処理
+                    Put ();
+                }
+
+                break;
+
+        }
+    }
 
     /// <summary>
     /// 荷物を持つ処理

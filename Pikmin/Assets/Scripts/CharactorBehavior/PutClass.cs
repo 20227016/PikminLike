@@ -20,7 +20,7 @@ public class PutClass : MonoBehaviour
     {
 
         //置いた荷物の Luggageクラス
-        LuggageManagerClass luggageManagerClass = hitObjTrans.GetComponent<LuggageManagerClass> ();
+        LuggagesClass luggageManagerClass = hitObjTrans.GetComponent<LuggagesClass> ();
 
         //置いた荷物を運ぶ（ルートと運ぶ速さを取得）
         luggageManagerClass.BePlaced( muscleStrength , speed );

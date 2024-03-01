@@ -28,7 +28,7 @@ public class HoldClass : MonoBehaviour
      {
 
         //持った荷物の Luggageクラス
-        LuggageManagerClass luggageManagerClass = hitObjTrans.GetComponent<LuggageManagerClass> ();
+        LuggagesClass luggageManagerClass = hitObjTrans.GetComponent<LuggagesClass> ();
 
         //持った荷物を運ぶ（持てるかを取得）
         bool isBeHeld =luggageManagerClass.BeHeld (muscleStrength , speed);

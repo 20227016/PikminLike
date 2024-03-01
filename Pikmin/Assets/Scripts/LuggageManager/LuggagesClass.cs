@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
 
-public class LuggageManagerClass : MonoBehaviour
+public class LuggagesClass : MonoBehaviour
 {
 
     #region 変数  
@@ -61,6 +61,7 @@ public class LuggageManagerClass : MonoBehaviour
     private void Start()
     {
 
+        //自分のナビを取得
         _agent = this.transform.GetComponent<NavMeshAgent> ();
     }
 
@@ -72,7 +73,8 @@ public class LuggageManagerClass : MonoBehaviour
     /// <returns>持てるかの判断</returns>
     public bool BeHeld(int muscleStrength , float speed)
     {
-        Debug.Log ( "持つ" );
+        Debug.Log (speed);
+
         //持っているオブジェクトの数を加算
         _haveCount++;
         //持っているオブジェクトの筋力の合計を加算
@@ -83,20 +85,13 @@ public class LuggageManagerClass : MonoBehaviour
         //持たれている数が持たれる最大数を超えたら
         if (_haveCount > _maxHave)
         {
-            Debug.Log ( _haveCount + "持ってる数" );
-            Debug.Log ( _maxHave +"最大" );
-            Debug.Log ( "もう持てない" );
             //もう持てない判定を返す
             return false;
         }
 
-        Debug.Log ( "まだ持てる" );
-
         //持っているオブジェクトの合計筋力が重さを上回った時時
         if (_weight <= _sumMuscleStrength)
         {
-
-            Debug.Log ("持ち上げる");
             //運ばれてる判定にする
             _isCarray = true;
 
@@ -116,7 +111,6 @@ public class LuggageManagerClass : MonoBehaviour
 
     public void BePlaced(int muscleStrength , float speed)
     {
-        Debug.Log ( "置く" );
         //持っているオブジェクトの数を減算
         _haveCount--;
         //持っているオブジェクトの筋力の合計を減算
@@ -131,7 +125,6 @@ public class LuggageManagerClass : MonoBehaviour
             //持っているオブジェクトの合計筋力が重さを下回った時
             if (_weight >= _sumMuscleStrength)
             {
-                Debug.Log ( "降ろす" );
                 //運ばれてない判定にする
                 _isCarray = false;
 
