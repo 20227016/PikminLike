@@ -5,8 +5,9 @@
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using UniRx;
+using System;
 
 
 public class PlayerManagerClass : MonoBehaviour, IGetValue
