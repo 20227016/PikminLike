@@ -1,17 +1,17 @@
 // ---------------------------------------------------------  
-// RobotsManager.cs  
-//   ロボットたちのマネージャー
+// NormalRobots.cs  
+//   
 // 作成日:  3/1
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
 
-public class RobotsManager : MonoBehaviour
+public class NormalRobotsClass : MonoBehaviour
 {
-  
+
     #region 変数  
-  
+
     #endregion
   
     #region メソッド  
@@ -28,7 +28,7 @@ public class RobotsManager : MonoBehaviour
      /// </summary>  
      void Start ()
      {
-        
+  
      }
   
      /// <summary>  

@@ -1,4 +1,4 @@
-public enum PlayerOederStatus
+public enum OrderStatus
 {
     None,
     OederAttach,
