@@ -27,7 +27,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     [SerializeField, Tooltip ( "Rotateスクリプト" )]
     private RotateClass _rotateClass = default;
     [SerializeField, Tooltip ( "MoveCheckスクリプト" )]
-    private MoveCheck _moveCheckClass = default;
+    private MoveCheckClass _moveCheckClass = default;
     [SerializeField, Tooltip ( "Holdスクリプト" )]
     private HoldClass _holdClass = default;
     [SerializeField, Tooltip ( "Putスクリプト" )]
@@ -42,8 +42,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     private InputActionReference _onPutOrCall = default;
     [SerializeField, Tooltip ( "InputSystemのSelectが入る" )]
     private InputActionReference _onSelect = default;
-    [SerializeField, Tooltip ( "InputSystemのPointerが入る" )]
-    private InputActionReference _onPointer = default;
 
     [Header ( "ステータス" )]
     [SerializeField, Tooltip ( "歩く速さ" )]
@@ -54,6 +52,9 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     private int _muscleStrength = 3;
 
     #endregion 
+
+    //インスタンス化
+    PointerClass _pointer = new PointerClass ();
 
     /// <summary>
     /// プレイヤーの状態
@@ -83,17 +84,12 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     /// <summary>
     /// プレイヤーが向く方向のベクトル
     /// </summary>
-    private Vector3 _rotaVec = default;
+    private Vector3 _moveVec = default;
 
     /// <summary>
     /// プレイヤーのポインターの位置
     /// </summary>
     private Vector3 _pointerPos = default;
-
-    /// <summary>
-    /// ポインターのRay方向が入る
-    /// </summary>
-    private Vector3 _direction = default;
 
     /// <summary>
     /// 連れているロボットの量
@@ -154,9 +150,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
 
                 break;
         }
-
-        //ポインターの位置
-        Pointer();
         
     }
 
@@ -164,103 +157,29 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     /// 入力からプレイヤーの移動方向を取得
     /// </summary>
     /// <param name="context">入力値</param>
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnGetMoveValue(InputAction.CallbackContext context)
     {
 
         //入力値
         Vector3 inputValue = context.ReadValue<Vector2> ();
 
+        //入力値のY軸の値とZ軸の値を入れ替える
         inputValue = Vector3.right * inputValue.x +
-                             Vector3.up * 0 +
-                             Vector3.forward * inputValue.y;
+                     Vector3.up * 0 +
+                     Vector3.forward * inputValue.y;
 
-        /*
-         * カメラの方向に前と右向きのベクトル（1,0,1)をかけて正規化することで
-         * XとZ平面の単位ベクトル（1・0のベクトル）を取得
-         */
-        Vector3 cameraRotaVec = Vector3.Scale ( _cameraObj.transform.forward , Vector3.forward + Vector3.right ).normalized;
 
-        /*
-         * 入力値とカメラの向きから、移動方向を決定
-         * ワールドから見た移動方向のベクトル取得
-         */
-        _rotaVec = (cameraRotaVec * inputValue.z) + (_cameraObj.transform.right * inputValue.x);
+
+        //カメラのY軸以外の単位ベクトル（1・0のベクトル）を取得
+        Vector3 cameraForward = Camera.main.transform.forward.normalized;
+        cameraForward.y = 0;
+        Vector3 cameraRight = Camera.main.transform.right.normalized;
+        cameraRight.y = 0;
+
+        //カメラから見た入力値を取得
+        _moveVec = (cameraForward * inputValue.z) + (cameraRight * inputValue.x);
 
     }
-
-    private void Pointer()
-    {
-
-        // Rayを発射して当たった場所の情報を取得
-        RaycastHit hit = default;
-
-        //最大の長さ
-        float maxDist = 15f;
-
-        //表示時間
-        float duration = 100f;
-
-        //Rayを打つ始発地点 （プレイヤーの頭の上）
-        Vector3 origin = transform.position +
-                         (Vector3.up * (transform.localScale.y / 2));
-
-        //Ray
-        Ray ray = new Ray ( origin , _direction );
-
-        Debug.DrawRay ( origin , _direction * maxDist , Color.red , duration );
-
-        //Raycastが当たった時
-        if (Physics.Raycast ( ray , out hit , maxDist ))
-        {
-
-            // 当たった場所の座標を取得
-            Vector3 hitPosition = hit.point;
-            _pointerObj.transform.position = hitPosition;
-        }
-    }
-
-    /// <summary>
-    /// ポインターの値を取得
-    /// </summary>
-    public void OnPointer(InputAction.CallbackContext context)
-    {
-
-        //入力値取得
-        Vector3 inputValue = context.ReadValue<Vector2> ();
-
-        float xAxis = default;
-        float yAxis = default;
-        float zAxis = default;
-
-        //x軸の長さを求める
-        xAxis += inputValue.x * Time.deltaTime;
-        //z軸の長さを求める
-        zAxis += inputValue.y * Time.deltaTime;
-
-        Vector3 targetVector = new Vector3 ( xAxis , 0 , zAxis );
-
-        Debug.Log ( zAxis );
-
-        //Rayを打つ始発地点 （プレイヤーの頭の上）
-        Vector3 origin = transform.position +
-                         (Vector3.up * (transform.localScale.y / 2));
-
-        // 自身のTransformから目標位置までの角度を求める
-        yAxis = Vector3.Angle ( origin , targetVector );
-
-        //入力値を３軸に対応させる
-        inputValue = (
-                        Vector3.right * inputValue.x +
-                        Vector3.up * inputValue.y +
-                        Vector3.forward * inputValue.y
-                     );
-
-        //打つ方向カーソル（マウスなど）の位置を単位ベクトルにして取得
-        _direction = inputValue.normalized;
-
-        Debug.Log ( _direction );
-    }
-
 
     /// <summary>
     /// プレイヤーまたはロボっト達を選ぶ
@@ -333,13 +252,25 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
             //モノを置いている状態
             case PlayerStatus.Put:
 
-
                 //移動ボタンが入力判定の時
                 if (_onMove.action.IsPressed ())
                 {
 
-                    //移動の管理
-                    MoveManagment ();
+                    //目的の方向を元に、プレイヤーの向く方向を取得
+                    Quaternion targetRota = Quaternion.LookRotation ( _moveVec );
+
+                    //移動先確認
+                    _moveHit = _moveCheckClass.Check ( this.transform , _moveVec );
+
+                    //回転
+                    _rotateClass.Rotate ( this.transform , targetRota , _roteSpeed );
+
+                    //移動先に物がないときの処理
+                    if (_moveHit.collider == false)
+                    {
+                        //移動
+                        _wakeClass.Walk ( this.transform , _moveVec , _speed );
+                    }
                 }
 
                 //目の前に荷物があった時
@@ -379,47 +310,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     {
     
 
-    }
-
-    /// <summary>
-    /// 移動の管理
-    /// </summary>
-    private void MoveManagment()
-    {
-
-        //移動先の確認
-        _moveHit = _moveCheckClass.Check ( this.gameObject.transform );
-
-        //目的の方向を元に、プレイヤーの方向を向く方向を取得
-        Quaternion targetRotation = Quaternion.LookRotation ( _rotaVec );
-
-        // プレイヤーの方向を取得
-        float objectAngle = transform.eulerAngles.y;
-
-        // 目的の方向を取得
-        float targetAngle = targetRotation.eulerAngles.y;
-
-        // 目的のの方向までの角度を取得
-        float angleDifference = Mathf.Abs ( targetAngle - objectAngle );
-
-        //入力方向と向いている方向があった時
-        if (angleDifference == 0)
-        {
-
-            //前にオブジェクトがないとき
-            if (_moveHit.collider == false)
-            {
-
-                //移動
-                _wakeClass.MoveMethod ( this.transform , _speed );
-            }
-        }
-        else
-        {
-
-            //回転
-            _rotateClass.Rotate ( this.transform , targetRotation , _roteSpeed );
-        }
     }
 
     /// <summary>
@@ -471,6 +361,15 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
 
         //親となっている荷物を離す
         transform.SetParent ( null );
+    }
+
+    /// <summary>
+    /// プレイヤー以外の選択中のキャラをポインターの位置まで動かす
+    /// </summary>
+    private void GoToLocation()
+    {
+    
+    
     }
 
 

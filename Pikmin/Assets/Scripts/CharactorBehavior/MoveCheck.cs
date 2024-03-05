@@ -6,9 +6,8 @@
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 
-public class MoveCheck : MonoBehaviour
+public class MoveCheckClass : MonoBehaviour
 {
     
     private Vector3 _origin = default;
@@ -22,7 +21,7 @@ public class MoveCheck : MonoBehaviour
     /// <param name="moveDirection">移動方向(xyzそれぞれ0~1)</param>
     /// <param name="objectPos">移動するオブジェクトの位置</param>
     /// <returns></returns>
-    public RaycastHit Check(Transform objTransform)
+    public RaycastHit Check(Transform objTransform,Vector3 moveDirection)
     {
         _objTransfrom = objTransform;
 
@@ -45,9 +44,13 @@ public class MoveCheck : MonoBehaviour
 
 
         //BoxCastを打つ
-        Physics.BoxCast ( _origin , _cubeSize , objTransform.forward , out hit , objTransform.rotation , _dist );
+        Physics.BoxCast ( _origin , _cubeSize , moveDirection , out hit , objTransform.rotation , _dist );
 
-
+        if (hit.collider != null)
+        {
+            print ( hit.collider.name );
+        }
+        
 
         return hit;
     }

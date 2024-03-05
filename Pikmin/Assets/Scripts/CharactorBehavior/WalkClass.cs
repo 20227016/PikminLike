@@ -12,11 +12,6 @@ public class WalkClass : MonoBehaviour
 {
 
     #region 変数
-
-    [Header("スクリプト")]
-    [SerializeField, Tooltip("MoveCheckスクリプト")]
-    private MoveCheck _walkCheckClass = default;
-
     #endregion
 
     #region メソッド
@@ -25,12 +20,13 @@ public class WalkClass : MonoBehaviour
     /// 移動する方向を決める
     /// </summary>
     /// <param name="objTransfrom">呼び出したオブジェクトのトランスフォーム</param>
+    /// <param name="moveDirection">オブジェクトの移動する方向</param>
     /// <param name="speed">オブジェクトの移動する速さ</param>
-    public void MoveMethod(Transform objTransfrom , float speed)
+    public void Walk(Transform objTransfrom , Vector3 moveDirection , float speed)
     {
 
         //速さで移動する
-        objTransfrom.position += objTransfrom.forward * speed * Time.deltaTime;
+        objTransfrom.position += moveDirection * speed * Time.deltaTime;
     }
 
 
