@@ -109,13 +109,14 @@ public class PointerClass : MonoBehaviour
         //z軸の位置を求める
         _targetPos.z += _moveVec.z * _speed * Time.deltaTime;
 
+
         //距離の固定化
-        _targetPos.x = Mathf.Clamp ( _direction.x , this.transform.position.x - _pointerDist , this.transform.position.x + _pointerDist);
-        _targetPos.z = Mathf.Clamp ( _direction.z , this.transform.position.x - _pointerDist , this.transform.position.x + _pointerDist);
+        _targetPos.x = Mathf.Clamp ( _targetPos.x , this.transform.position.x - _pointerDist , this.transform.position.x + _pointerDist);
+        _targetPos.z = Mathf.Clamp ( _targetPos.z , this.transform.position.x - _pointerDist , this.transform.position.x + _pointerDist);
 
-        //print ( _targetPos );
+       
 
-        // ワールドのRayの方向を取得
+        // Rayの方向を取得
         _direction = _targetPos - origin;
 
         Ray ray = new Ray ( origin , _direction );
