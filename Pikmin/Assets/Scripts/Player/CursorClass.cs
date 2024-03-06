@@ -8,19 +8,22 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 
-public class PointerClass : MonoBehaviour
+public class CursorClass : MonoBehaviour
 {
 
     #region 変数  
 
-    [Header ( "オブジェクト" )]
-    [SerializeField, Tooltip ( "pointerのオブジェクト" )]
-    private GameObject _pointerObj = default;
-    [SerializeField, Tooltip ( "Cameraのオブジェクト" )]
-    private GameObject _cameraObj = default;
+    [Header ( "トランスフォーム" )]
+    [SerializeField, Tooltip ( "Playerオブジェクトのトランスフォーム" )]
+    private Transform _playerTrans = default;
+    [Header ( "スクリプト" )]
+    [SerializeField, Tooltip ( "Moveスクリプト" )]
+    private WalkClass _wakeClass = default;
+    [SerializeField, Tooltip ( "Rotateスクリプト" )]
+    private RotateClass _rotateClass = default;
     [Header ( "InputSystem" )]
     [SerializeField, Tooltip ( "InputSystemのMoveが入る" )]
-    private InputActionReference _onMove = default;
+    private InputActionReference _onCursorMove = default;
     [Header ( "ステータス" )]
     [SerializeField, Tooltip ( "ポインターの動く速さ" )]
     private float _speed = 20f;
@@ -28,6 +31,11 @@ public class PointerClass : MonoBehaviour
     private float _pointerDist = 15f;
     [SerializeField, Tooltip ( "Rayの始点の高さ" )]
     private float _rayHeight = 30f;
+
+    /// <summary>
+    /// Rayの情報が入る
+    /// </summary>
+    private RaycastHit _hit;
 
     /// <summary>
     /// 動く方向が入る
@@ -44,36 +52,42 @@ public class PointerClass : MonoBehaviour
     /// </summary>
     private Vector3 _targetPos = default;
 
-    //入力値
-    private Vector3 _inputValue = default;
     #endregion
 
     #region メソッド  
 
 
+    private void Start()
+    {
+        //
+        _targetPos = Vector3.forward * _playerTrans.position.z +
+                     Vector3.right * _playerTrans.position.x;
+    }
+
     private void Update()
     {
 
-        if (_onMove.action.IsPressed ())
+        if (_onCursorMove.action.IsPressed ())
         {
 
             DrowRay ();
+            MoveCursor ();
         }
     }
 
     /// <summary>
-    /// ポインターの値を取得
+    /// カーソルの値を取得
     /// </summary>
-    public void OnPointer(InputAction.CallbackContext context)
+    public void OnCursor(InputAction.CallbackContext context)
     {
 
         //入力値取得
-        _inputValue = context.ReadValue<Vector2> ();
+        Vector3 inputValue = context.ReadValue<Vector2> ();
 
         //入力値のY軸の値とZ軸の値を入れ替える
-        _inputValue = Vector3.right * _inputValue.x +
+        inputValue = Vector3.right * inputValue.x +
                      Vector3.up * 0 +
-                     Vector3.forward * _inputValue.y;
+                     Vector3.forward * inputValue.y;
 
         //カメラのY軸以外の単位ベクトル（1・0のベクトル）を取得
         Vector3 cameraForward = Camera.main.transform.forward .normalized;
@@ -82,47 +96,41 @@ public class PointerClass : MonoBehaviour
         cameraRight.y = 0;
 
         //カメラから見た入力値を取得
-        _moveVec = (cameraForward * _inputValue.z) + (cameraRight * _inputValue.x);
-
+        _moveVec = (cameraForward * inputValue.z) + (cameraRight * inputValue.x);
+        //print ( _moveVec );
     }
 
 
-    private void MakeDirection()
+    private void MoveCursor()
     {
 
-
+        this.transform.position = _hit.point;
     }
 
     private void DrowRay()
     {
 
         //Rayを打つ始発地点 （プレイヤーの頭の上）
-        Vector3 origin = transform.position +
+        Vector3 origin = _playerTrans.position +
                          Vector3.up * _rayHeight;
-
-        //プレイヤーの位置を初期値に
-        _targetPos = Vector3.forward * this.transform.position.z +
-                     Vector3.right * this.transform.position.x;
 
         //x軸の位置を求める
         _targetPos.x += _moveVec.x * _speed * Time.deltaTime;
         //z軸の位置を求める
         _targetPos.z += _moveVec.z * _speed * Time.deltaTime;
 
-
         //距離の固定化
-        _targetPos.x = Mathf.Clamp ( _targetPos.x , this.transform.position.x - _pointerDist , this.transform.position.x + _pointerDist);
-        _targetPos.z = Mathf.Clamp ( _targetPos.z , this.transform.position.x - _pointerDist , this.transform.position.x + _pointerDist);
-
-       
+        _targetPos.x = Mathf.Clamp ( _targetPos.x , _playerTrans.position.x - _pointerDist , _playerTrans.position.x + _pointerDist);
+        _targetPos.z = Mathf.Clamp ( _targetPos.z , _playerTrans.position.z - _pointerDist , _playerTrans.position.z + _pointerDist);
 
         // Rayの方向を取得
-        _direction = _targetPos - origin;
+        _direction = _targetPos - origin  ;
 
         Ray ray = new Ray ( origin , _direction );
 
-        Debug.Log ( "デバック" );
-        Debug.DrawRay ( origin , _direction * 100f , Color.green , 3f );
+        Physics.Raycast ( ray , out _hit );
+
+        //Debug.DrawRay ( origin , _direction * 100f , Color.green , 3f );
     }
 
     #endregion

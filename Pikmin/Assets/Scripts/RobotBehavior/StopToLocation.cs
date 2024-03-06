@@ -1,17 +1,21 @@
 // ---------------------------------------------------------  
-// NormalRobots.cs  
+// StopToLocation.cs  
 //   
-// 作成日:  3/1
+// 作成日:  3/6
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
 
-public class NormalRobotsClass : BaseRobot　, INomalRobotBehavior
+public class StopToLocation : MonoBehaviour
 {
-
+  
     #region 変数  
-
+  
+    #endregion
+  
+    #region プロパティ  
+  
     #endregion
   
     #region メソッド  

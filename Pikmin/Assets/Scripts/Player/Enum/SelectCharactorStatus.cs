@@ -1,6 +1,6 @@
 public enum SelectCharactorStatus
 {
-    Player,
+    None,
     NormalRobot,
     BombRobot
 

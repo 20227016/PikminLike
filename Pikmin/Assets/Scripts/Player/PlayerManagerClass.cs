@@ -15,11 +15,9 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
 
     #region 変数  
     #region インスペクター表示
-    [Header ( "オブジェクト" )]
-    [SerializeField, Tooltip ( "Cameraのオブジェクト" )]
-    private GameObject _cameraObj = default;
-    [SerializeField, Tooltip ( "pointerのオブジェクト" )]
-    private GameObject _pointerObj = default;
+    [Header ( "トランスフォーム" )]
+    [SerializeField, Tooltip ( "Cursorオブジェクトのトランスフォーム" )]
+    private Transform _cursorTrans = default;
 
     [Header ( "スクリプト" )]
     [SerializeField, Tooltip ( "Moveスクリプト" )]
@@ -46,15 +44,14 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     [Header ( "ステータス" )]
     [SerializeField, Tooltip ( "歩く速さ" )]
     private float _speed = 10f;
-    [SerializeField, Tooltip ( "回転する速さ" )]
-    private float _roteSpeed = 10f;
+    [SerializeField, Tooltip ( "移動時の回転する速さ" )]
+    private float _moveRoteSpeed = 500f;
+    [SerializeField, Tooltip ( "カーソルを見るときの回転する速さ" )]
+    private float _cursorRoteSpeed = 150f;
     [SerializeField, Tooltip ( "持てる重さ" )]
     private int _muscleStrength = 3;
 
     #endregion 
-
-    //インスタンス化
-    PointerClass _pointer = new PointerClass ();
 
     /// <summary>
     /// プレイヤーの状態
@@ -67,14 +64,14 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     /// <summary>
     /// プレイヤーの命令状況
     /// </summary>
-    private ReactiveProperty<OrderStatus> _enumOederStatus = new ReactiveProperty<OrderStatus>(OrderStatus.None);
+    private ReactiveProperty<OrderStatus> _enumOrderStatus = new ReactiveProperty<OrderStatus>(OrderStatus.None);
 
-    public IReadOnlyReactiveProperty<OrderStatus> PlayerState => _enumOederStatus;
+    public IReadOnlyReactiveProperty<OrderStatus> EnumOrderState => _enumOrderStatus;
 
     /// <summary>
     /// プレイヤーが選んでいるキャラクター
     /// </summary>
-    private SelectCharactorStatus _enumSelectCharactorStatus = SelectCharactorStatus.Player;
+    private SelectCharactorStatus _enumSelectCharactorStatus = SelectCharactorStatus.None;
 
     /// <summary>
     /// 目の前のオブジェクト
@@ -85,11 +82,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     /// プレイヤーが向く方向のベクトル
     /// </summary>
     private Vector3 _moveVec = default;
-
-    /// <summary>
-    /// プレイヤーのポインターの位置
-    /// </summary>
-    private Vector3 _pointerPos = default;
 
     /// <summary>
     /// 連れているロボットの量
@@ -120,6 +112,9 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
 
     #region メソッド
 
+    /// <summary>
+    /// EnumのSelevtをするための準備
+    /// </summary>
     private void Start()
     {
         //SelectCharactorStatus(Enum)の最大インデックス取得
@@ -127,25 +122,32 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     }
 
     /// <summary>
-    /// 回転と移動の呼び出し
+    /// プレイヤーの処理と選択しているキャラクターへの命令
     /// </summary>
-    void Update()
+    private void Update()
     {
+
+        //プレイヤーの処理
+        PlayerProcess ();
 
         //選んでいるキャラクターのステータスによる処理分け
         switch (_enumSelectCharactorStatus)
         {
-            case SelectCharactorStatus.Player:
 
-                //プレイヤーの処理
-                PlayerProcess ();
+            //なにも選んでいない
+            case SelectCharactorStatus.None:
+
+
                 break;
+
+            //普通のロボット
             case SelectCharactorStatus.NormalRobot:
 
                 //ロボットへの命令処理
                 NormalRobotProcess ();
                 break;
 
+            //爆発するロボット
             case SelectCharactorStatus.BombRobot:
 
                 break;
@@ -167,8 +169,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
         inputValue = Vector3.right * inputValue.x +
                      Vector3.up * 0 +
                      Vector3.forward * inputValue.y;
-
-
 
         //カメラのY軸以外の単位ベクトル（1・0のベクトル）を取得
         Vector3 cameraForward = Camera.main.transform.forward.normalized;
@@ -237,8 +237,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
 
     }
 
-
-
     /// <summary>
     /// プレイヤーが選ばれているときの処理
     /// </summary>
@@ -263,7 +261,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
                     _moveHit = _moveCheckClass.Check ( this.transform , _moveVec );
 
                     //回転
-                    _rotateClass.Rotate ( this.transform , targetRota , _roteSpeed );
+                    _rotateClass.Rotate ( this.transform , targetRota , _moveRoteSpeed );
 
                     //移動先に物がないときの処理
                     if (_moveHit.collider == false)
@@ -271,6 +269,21 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
                         //移動
                         _wakeClass.Walk ( this.transform , _moveVec , _speed );
                     }
+                }
+                else
+                {
+
+                    //目標の位置
+                    Vector3 targetPos = _cursorTrans.position - this.transform.position;
+
+                    //Y軸の値を無視する
+                    targetPos.y = 0;
+
+                    //カーソルの向きを向く
+                    Quaternion targetRote = Quaternion.LookRotation( targetPos );
+
+                    //回転
+                    _rotateClass.Rotate ( this.transform , targetRote , _cursorRoteSpeed );
                 }
 
                 //目の前に荷物があった時
@@ -308,8 +321,31 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     /// </summary>
     private void NormalRobotProcess()
     {
-    
 
+        //目的の場所に行かせるボタンが押されたら
+        if (_onHoldOrGotoLocation.action.WasPressedThisFrame ())
+        {
+
+            //目的の場所（カーソル）まで行かせる状態にする
+            _enumOrderStatus.Value = OrderStatus.GoToLocation;
+
+            //何も命令していない状態にする
+            _enumOrderStatus.Value = OrderStatus.None;
+        }
+
+        //戻ってこさせるボタンが押されたら
+        if (_onPutOrCall.action.WasPressedThisFrame ())
+        {
+
+            //呼ぶ状態にする
+            _enumOrderStatus.Value = OrderStatus.Call;
+        }
+        else
+        {
+
+            //何も命令していない状態にする
+            _enumOrderStatus.Value = OrderStatus.None;
+        }
     }
 
     /// <summary>
@@ -361,15 +397,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
 
         //親となっている荷物を離す
         transform.SetParent ( null );
-    }
-
-    /// <summary>
-    /// プレイヤー以外の選択中のキャラをポインターの位置まで動かす
-    /// </summary>
-    private void GoToLocation()
-    {
-    
-    
     }
 
 

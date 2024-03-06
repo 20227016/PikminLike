@@ -131,6 +131,14 @@ public class LuggagesClass : MonoBehaviour
                 //降ろされる処理
                 this.transform.position = this.transform.position - (Vector3.up * _liftHeight);
 
+                //子オブジェクトを見ていく
+                foreach (Transform childTransform in this.transform)
+                {
+
+                    //持ち下げられた分上げる
+                    childTransform.position = this.transform.position + (Vector3.up * _liftHeight );
+                }
+
                 //NavMeshを止める処理
                 _carrayClass.OutCarray ( _agent );
             }

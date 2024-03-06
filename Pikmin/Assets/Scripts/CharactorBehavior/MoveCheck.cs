@@ -20,7 +20,7 @@ public class MoveCheckClass : MonoBehaviour
     /// </summary>
     /// <param name="moveDirection">移動方向(xyzそれぞれ0~1)</param>
     /// <param name="objectPos">移動するオブジェクトの位置</param>
-    /// <returns></returns>
+    /// <returns>Ray情報</returns>
     public RaycastHit Check(Transform objTransform,Vector3 moveDirection)
     {
         _objTransfrom = objTransform;
@@ -35,7 +35,7 @@ public class MoveCheckClass : MonoBehaviour
         _origin = objTransform.position + objTransform.forward * startOffset;
 
         //BoxCastの厚み
-        float forwardValue = 0.1f;
+        float forwardValue = 0.2f;
         //ボックスキャストのサイズ
         _cubeSize = new Vector3 ( objTransform.localScale.x , objTransform.localScale.y , forwardValue );
         //Rayの距離
