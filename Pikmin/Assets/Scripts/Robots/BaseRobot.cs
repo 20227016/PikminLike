@@ -20,6 +20,8 @@ public class BaseRobot : MonoBehaviour
     protected int _cost = 10;
     [SerializeField, Tooltip ( "目的地についたときの探索範囲" )]
     protected float _searchRange = 10;
+    [SerializeField, Tooltip ( "歩く速さ" )]
+    protected float _speed = 10;
 
     //インスタンス化
     protected GoToLocationClass _goToLocation = new GoToLocationClass ();
@@ -48,14 +50,18 @@ public class BaseRobot : MonoBehaviour
     public void Follow()
     {
 
-        _follow.Follow ();
+        //_follow.Follow ();
     }
 
-    public void GoToLocation(Transform cursorTrans)
+    /// <summary>
+    /// 目的地まで向かう処理
+    /// </summary>
+    /// <param name="cursorPos"></param>
+    public void GoToLocation(Vector3 cursorPos)
     {
 
         //
-        _goToLocation.GoToLocation (cursorTrans.position , _searchRange);
+        _goToLocation.GoToLocation (cursorPos ,_myNav ,_speed , _searchRange);
     }
 
     public void Call()

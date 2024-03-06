@@ -5,6 +5,7 @@
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
+using UnityEngine.AI;
 using System.Collections;
 
 public class GoToLocationClass : MonoBehaviour
@@ -16,10 +17,17 @@ public class GoToLocationClass : MonoBehaviour
 
     #region メソッド  
 
-    public void GoToLocation(Vector3 target,float searchRange )
+    public void GoToLocation(Vector3 target,NavMeshAgent myNav , float speed ,float searchRange )
     {
-    
-        
+
+        //Agent起動
+        myNav.isStopped = false;
+
+        //速さを設定
+        myNav.speed = speed;
+
+        //目的地を設定
+        myNav.destination = target;
     }
 
     #endregion

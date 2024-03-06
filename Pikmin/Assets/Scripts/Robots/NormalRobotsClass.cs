@@ -7,7 +7,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class NormalRobotsClass : BaseRobot　, INomalRobotBehavior
+public class NormalRobotsClass : BaseRobot　
 {
 
     #region 変数  
@@ -21,6 +21,8 @@ public class NormalRobotsClass : BaseRobot　, INomalRobotBehavior
      /// </summary>  
      void Awake()
      {
+
+
      }
   
      /// <summary>  
@@ -29,6 +31,8 @@ public class NormalRobotsClass : BaseRobot　, INomalRobotBehavior
      void Start ()
      {
   
+
+
      }
   
      /// <summary>  
@@ -36,6 +40,8 @@ public class NormalRobotsClass : BaseRobot　, INomalRobotBehavior
      /// </summary>  
      void Update ()
      {
+
+
      }
   
     #endregion

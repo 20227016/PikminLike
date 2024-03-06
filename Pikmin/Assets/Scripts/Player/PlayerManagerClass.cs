@@ -117,6 +117,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     /// </summary>
     private void Start()
     {
+
         //SelectCharactorStatus(Enum)の最大インデックス取得
         _enumSelectMaxIndex = Enum.GetValues ( typeof ( SelectCharactorStatus ) ).Length -1;
     }
@@ -190,6 +191,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
         //押す以外の時
         if (!context.started)
         {
+
             //帰る
             return;
         }
@@ -233,7 +235,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
 
         //Enumの変更
         _enumSelectCharactorStatus = (SelectCharactorStatus)_nowSelectNober;
-        Debug.Log ( "現在の選んでいるキャラクタ" + _enumSelectCharactorStatus );
 
     }
 

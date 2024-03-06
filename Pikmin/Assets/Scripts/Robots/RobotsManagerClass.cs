@@ -1,6 +1,6 @@
 // ---------------------------------------------------------  
 // RobotsManager.cs  
-//   ロボットたちのマネージャー
+//   命令を受け取り対象のロボットに指示をするロボットたちのマネージャー
 // 作成日:  3/1
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
@@ -37,12 +37,12 @@ public class RobotsManagerClass : MonoBehaviour
     /// <summary>
     /// プレイヤーの配下のロボット
     /// </summary>
-    private List<Transform> _robotsList = default;
+    private List<NormalRobotsClass> _robotsList = new List<NormalRobotsClass> { };
 
     /// <summary>
     /// 行動中のロボット
     /// </summary>
-    private List<Transform> _inActionRobotsList = default;
+    private List<NormalRobotsClass> _inActionRobotsList = default;
     #endregion
 
     #region メソッド  
@@ -83,7 +83,7 @@ public class RobotsManagerClass : MonoBehaviour
             //目的の場所（カーソル）まで移動の指示を出す
             case OrderStatus.GoToLocation:
 
-                _robotsList [ 1 ].GetComponent<NormalRobotsClass> ();
+                _robotsList [ 0 ].GoToLocation(_cursorTrans.position);
 
                 break;
 
@@ -99,11 +99,23 @@ public class RobotsManagerClass : MonoBehaviour
     /// </summary>
     public void RobotCreat()
     {
+        //ロボット生成
+        GameObject robot = Instantiate ( _nomalRobot );
 
-        //生成してリストに格納
-        _robotsList.Add(Instantiate ( _nomalRobot ).transform);
+        //NormalRobotsクラスを取り出す
+        NormalRobotsClass normalRobotsClass = robot.transform.GetComponent<NormalRobotsClass> ();
+
+        if (normalRobotsClass != null)
+        {
+
+            print ( normalRobotsClass.transform.name );
+        }
+
+        //生成したオブジェクトのNormalRobotsクラスをリストに格納
+        _robotsList.Add(normalRobotsClass);
+
         //最後尾の生成されたばかりのオブジェクトの位置をショップにする
-        _robotsList [ _robotsList.Count - 1 ].position = _shopTrans.position;
+        _robotsList [ _robotsList.Count - 1 ].transform.position = _shopTrans.position;
     }
   
 
