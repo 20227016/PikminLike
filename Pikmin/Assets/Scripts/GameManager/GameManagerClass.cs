@@ -8,7 +8,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UniRx;
 
-public class GameManager : MonoBehaviour
+public class GameManagerClass : MonoBehaviour
 {
 
     #region 変数  
@@ -34,6 +34,11 @@ public class GameManager : MonoBehaviour
     /// 配置中のLuggagesClassクラス
     /// </summary>
     private List<LuggagesClass> _luggagesClass = default;
+
+    /// <summary>
+    /// ゲームのステータス
+    /// </summary>
+    private GameStatus _gameStatus = GameStatus.Title;
 
     #endregion
 
