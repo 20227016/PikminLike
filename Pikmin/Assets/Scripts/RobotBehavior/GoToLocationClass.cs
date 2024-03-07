@@ -8,27 +8,25 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 
-public class GoToLocationClass : MonoBehaviour
+public class GoToLocationClass 
 {
 
-    #region 変数  
-
-    #endregion
-
-    #region メソッド  
-
-    public void GoToLocation(Vector3 target,NavMeshAgent myNav , float speed ,float searchRange )
+    public void GoToLocation(Vector3 target,NavMeshAgent myAgent , float speed ,float searchRange )
     {
 
-        //Agent起動
-        myNav.isStopped = false;
-
         //速さを設定
-        myNav.speed = speed;
+        myAgent.speed = speed;
 
         //目的地を設定
-        myNav.destination = target;
+        myAgent.destination = target;
+
+        //目的の場所までの近さを設定
+        myAgent.stoppingDistance = 0;
+
+        //Agent起動
+        myAgent.isStopped = false;
+
+
     }
 
-    #endregion
 }

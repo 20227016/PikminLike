@@ -20,7 +20,7 @@ public class RobotsManagerClass : MonoBehaviour
 
     [Header ( "トランスフォーム" )]
     [SerializeField, Tooltip ( "Cursorオブジェクトのトランスフォーム" )]
-    protected Transform _cursorTrans = default;
+    protected Transform _radioWavieTrans = default;
     [SerializeField, Tooltip ( "Shopオブジェクトのトランスフォーム" )]
     protected Transform _shopTrans = default;
 
@@ -31,18 +31,23 @@ public class RobotsManagerClass : MonoBehaviour
     /// <summary>
     /// 命令されたこと
     /// </summary>
-    private OrderStatus _enumOrderStatus = OrderStatus.None;
-
+    private SelectStatus _enumOrderStatus = SelectStatus.NormalRobot;
 
     /// <summary>
     /// プレイヤーの配下のロボット
     /// </summary>
-    private List<NormalRobotsClass> _robotsList = new List<NormalRobotsClass> { };
+    private List<NormalRobotsClass> _followRobotsList = new List<NormalRobotsClass> { };
 
     /// <summary>
     /// 行動中のロボット
     /// </summary>
-    private List<NormalRobotsClass> _inActionRobotsList = default;
+    private List<NormalRobotsClass> _inActionRobotsList = new List<NormalRobotsClass> { };
+
+    /// <summary>
+    /// 最初の一回目化の判定
+    /// </summary>
+    private bool _isStart = true;
+
     #endregion
 
     #region メソッド  
@@ -50,18 +55,32 @@ public class RobotsManagerClass : MonoBehaviour
      /// <summary>  
      /// ロボットの生成と購読側の設定
      /// </summary>  
-    private  void Start ()
+    private void Start ()
     {
+
         //ロボットを生成
         RobotCreat ();
 
         //中身の値が変わったときに実行
-        _playerManager.EnumOrderState.
+        _playerManager.EnumSelectState.
         Subscribe ( status =>
         {
             _enumOrderStatus = status;
-            Order ();
         } ).AddTo(this);
+
+        //中身の値が変わったときに実行
+        _playerManager.GaToLocation.
+        Subscribe ( status =>
+        {
+            //初めの一回目の時
+            if (_isStart == true)
+            {
+
+                _isStart = false;
+                return;
+            }
+            Order ();
+        } ).AddTo ( this );
     }
 
     /// <summary>
@@ -70,28 +89,33 @@ public class RobotsManagerClass : MonoBehaviour
     private void Order()
     {
 
-        //命令されていることで分岐
-        switch (_enumOrderStatus)
+        //ロボットリストの中身があるとき
+        if (_followRobotsList.Count >= 1)
         {
+            //配列の先頭のロボットに目的の場所まで行く指示
+            _followRobotsList [ 0 ].SwitchStatusGoToLocation ();
 
-            //何も命令されていない
-            case OrderStatus.None:
+            //行動中のロボットリストに追加
+            _inActionRobotsList.Add ( _followRobotsList [ 0 ] );
 
-                
-                break;
-
-            //目的の場所（カーソル）まで移動の指示を出す
-            case OrderStatus.GoToLocation:
-
-                _robotsList [ 0 ].GoToLocation(_cursorTrans.position);
-
-                break;
-
-            //作業中のロボットを呼び戻す
-            case OrderStatus.Call:
-
-                break;
+            // プレイヤーについていくロボットのリストから削除
+            _followRobotsList.RemoveAt ( 0 );
         }
+
+    }
+
+    private void OrderCall(NormalRobotsClass normalRobotsClass)
+    {
+
+        //電波に当たったロボットを呼び戻す指示
+        normalRobotsClass.SwitchStatusCall ();
+
+        //行動中のロボットのリストから削除
+        _inActionRobotsList.Remove ( normalRobotsClass );
+
+        //プレイヤーについていくロボットのリストに格納
+        _followRobotsList.Add ( normalRobotsClass);
+
     }
 
     /// <summary>
@@ -99,23 +123,31 @@ public class RobotsManagerClass : MonoBehaviour
     /// </summary>
     public void RobotCreat()
     {
+
         //ロボット生成
         GameObject robot = Instantiate ( _nomalRobot );
 
         //NormalRobotsクラスを取り出す
         NormalRobotsClass normalRobotsClass = robot.transform.GetComponent<NormalRobotsClass> ();
 
-        if (normalRobotsClass != null)
-        {
+        normalRobotsClass.IsHitRadioWaves.
+            Subscribe
+            (
+                isHitRadioWaves =>
+                {
+                    if (isHitRadioWaves == true)
+                    {
 
-            print ( normalRobotsClass.transform.name );
-        }
+                        OrderCall (normalRobotsClass);
+                    }
+                }
+            ).AddTo(this);
 
         //生成したオブジェクトのNormalRobotsクラスをリストに格納
-        _robotsList.Add(normalRobotsClass);
+        _followRobotsList.Add(normalRobotsClass);
 
         //最後尾の生成されたばかりのオブジェクトの位置をショップにする
-        _robotsList [ _robotsList.Count - 1 ].transform.position = _shopTrans.position;
+        _followRobotsList [ _followRobotsList.Count - 1 ].transform.position = _shopTrans.position;
     }
   
 

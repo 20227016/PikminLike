@@ -7,6 +7,7 @@ TagManager:
   - Luggage
   - Shop
   - StoragePlace
+  - RadioWaves
   layers:
   - Default
   - TransparentFX

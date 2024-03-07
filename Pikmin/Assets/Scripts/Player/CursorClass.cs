@@ -27,6 +27,8 @@ public class CursorClass : MonoBehaviour
     [Header ( "ステータス" )]
     [SerializeField, Tooltip ( "ポインターの動く速さ" )]
     private float _speed = 20f;
+    [SerializeField, Tooltip ( "地面からの高さ" )]
+    private float _heightPos = 0.2f;
     [SerializeField, Tooltip ( "プレイヤーとの距離" )]
     private float _pointerDist = 15f;
     [SerializeField, Tooltip ( "Rayの始点の高さ" )]
@@ -59,7 +61,7 @@ public class CursorClass : MonoBehaviour
 
     private void Start()
     {
-        //
+        //ターゲットの最初の位置を取得
         _targetPos = Vector3.forward * _playerTrans.position.z +
                      Vector3.right * _playerTrans.position.x;
     }
@@ -103,8 +105,10 @@ public class CursorClass : MonoBehaviour
 
     private void MoveCursor()
     {
-
-        this.transform.position = _hit.point;
+        
+        //カーソルの位置を反映
+        this.transform.position = _hit.point +
+                                  Vector3.up * _heightPos ;
     }
 
     private void DrowRay()

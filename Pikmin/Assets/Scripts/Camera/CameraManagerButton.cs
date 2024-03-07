@@ -25,10 +25,6 @@ public class CameraManagerButton : MonoBehaviour
     [SerializeField, Tooltip ( "InputSystemのRoteが入る" )]
     private InputActionReference _onCametaRote = default;
 
-    [Header ( "スクリプト" )]
-    [SerializeField, Tooltip ( "Moveスクリプト" )]
-    private PlayerManagerClass _playerManagerClass = default;
-
     [Header ( "ステータス" )]
     [SerializeField, Tooltip ( "プレイヤーを基準としたカメラの高さ" )]
     private float _cameraHeight = 10f;

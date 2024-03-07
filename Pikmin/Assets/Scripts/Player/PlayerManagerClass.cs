@@ -14,10 +14,13 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
 {
 
     #region 変数  
+
     #region インスペクター表示
     [Header ( "トランスフォーム" )]
     [SerializeField, Tooltip ( "Cursorオブジェクトのトランスフォーム" )]
     private Transform _cursorTrans = default;
+    [SerializeField, Tooltip ( "Cursorオブジェクトのトランスフォーム" )]
+    private Transform _radioWavesTrans = default;
 
     [Header ( "スクリプト" )]
     [SerializeField, Tooltip ( "Moveスクリプト" )]
@@ -50,8 +53,26 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     private float _cursorRoteSpeed = 150f;
     [SerializeField, Tooltip ( "持てる重さ" )]
     private int _muscleStrength = 3;
+    [SerializeField, Tooltip ( "電波が広がる速さ" )]
+    private float _expansionSpeed = 1;
+    [SerializeField, Tooltip ( "電波の最大の広さ" )]
+    private float _maxExpansion = 5;
 
-    #endregion 
+    #endregion
+
+    #region インスペクター非表示
+
+    /// <summary>
+    /// プレイヤーの命令状況
+    /// </summary>
+    private ReactiveProperty<SelectStatus> _enumSelectStatus = new ReactiveProperty<SelectStatus> ( SelectStatus.NormalRobot );
+    public IReadOnlyReactiveProperty<SelectStatus> EnumSelectState => _enumSelectStatus;
+
+    /// <summary>
+    /// 目的の場所（カーソル）まで行かせる入力
+    /// </summary>
+    private ReactiveProperty<int> _goToLocation = new ReactiveProperty<int> ( );
+    public IReadOnlyReactiveProperty<int> GaToLocation => _goToLocation;
 
     /// <summary>
     /// プレイヤーの状態
@@ -62,19 +83,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     private PlayerStatus _enumPlayerStatus = PlayerStatus.Put;
 
     /// <summary>
-    /// プレイヤーの命令状況
-    /// </summary>
-    private ReactiveProperty<OrderStatus> _enumOrderStatus = new ReactiveProperty<OrderStatus>(OrderStatus.None);
-
-    public IReadOnlyReactiveProperty<OrderStatus> EnumOrderState => _enumOrderStatus;
-
-    /// <summary>
-    /// プレイヤーが選んでいるキャラクター
-    /// </summary>
-    private SelectCharactorStatus _enumSelectCharactorStatus = SelectCharactorStatus.None;
-
-    /// <summary>
-    /// 目の前のオブジェクト
+    /// 目の前のオブジェクトが入る
     /// </summary>
     private RaycastHit _moveHit = default;
 
@@ -82,6 +91,11 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     /// プレイヤーが向く方向のベクトル
     /// </summary>
     private Vector3 _moveVec = default;
+
+    /// <summary>
+    /// 電波オブジェクトのサイズを記憶
+    /// </summary>
+    private Vector3 _raidioWavesScaleMemory = default;
 
     /// <summary>
     /// 連れているロボットの量
@@ -97,6 +111,8 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     /// 現在選んでいるキャラのインデックス(Enumの)
     /// </summary>
     private int _nowSelectNober = default;
+
+    #endregion
 
     #endregion
 
@@ -117,9 +133,10 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     /// </summary>
     private void Start()
     {
-
-        //SelectCharactorStatus(Enum)の最大インデックス取得
-        _enumSelectMaxIndex = Enum.GetValues ( typeof ( SelectCharactorStatus ) ).Length -1;
+        //電波のサイズを記憶
+        _raidioWavesScaleMemory = _radioWavesTrans.localScale;
+        //SelectStatus(Enum)の最大インデックス取得
+        _enumSelectMaxIndex = Enum.GetValues ( typeof ( SelectStatus ) ).Length -1;
     }
 
     /// <summary>
@@ -130,29 +147,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
 
         //プレイヤーの処理
         PlayerProcess ();
-
-        //選んでいるキャラクターのステータスによる処理分け
-        switch (_enumSelectCharactorStatus)
-        {
-
-            //なにも選んでいない
-            case SelectCharactorStatus.None:
-
-
-                break;
-
-            //普通のロボット
-            case SelectCharactorStatus.NormalRobot:
-
-                //ロボットへの命令処理
-                NormalRobotProcess ();
-                break;
-
-            //爆発するロボット
-            case SelectCharactorStatus.BombRobot:
-
-                break;
-        }
         
     }
 
@@ -234,7 +228,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
         }
 
         //Enumの変更
-        _enumSelectCharactorStatus = (SelectCharactorStatus)_nowSelectNober;
+        _enumSelectStatus.Value = (SelectStatus)_nowSelectNober;
 
     }
 
@@ -299,6 +293,8 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
                     }
                 }
 
+                //カーソルの処理
+                CursorProcess ();
                 break;
 
             //モノを持っている状態
@@ -318,34 +314,48 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     }
 
     /// <summary>
-    /// ノーマルロボットが選ばれているときの処理
+    /// カーソルの処理
     /// </summary>
-    private void NormalRobotProcess()
+    private void CursorProcess()
     {
 
-        //目的の場所に行かせるボタンが押されたら
+        //目的の場所に行かせるボタンが押された時
         if (_onHoldOrGotoLocation.action.WasPressedThisFrame ())
         {
 
-            //目的の場所（カーソル）まで行かせる状態にする
-            _enumOrderStatus.Value = OrderStatus.GoToLocation;
+            //目的の場所（カーソル）まで行かせる入力をする
+            _goToLocation.Value++;
 
-            //何も命令していない状態にする
-            _enumOrderStatus.Value = OrderStatus.None;
         }
 
-        //戻ってこさせるボタンが押されたら
-        if (_onPutOrCall.action.WasPressedThisFrame ())
+ 
+
+        //戻って来させるボタンが長押しされたら
+        if (_onPutOrCall.action.IsInProgress ())
         {
 
-            //呼ぶ状態にする
-            _enumOrderStatus.Value = OrderStatus.Call;
+            //戻ってこさせるボタンが押された時
+            if (_onPutOrCall.action.WasPressedThisFrame ())
+            {
+
+                //電波の当たり判定を起動
+                _radioWavesTrans.GetComponent<CapsuleCollider> ().enabled = true;
+            }
+
+            //電波のサイズを拡大
+            _radioWavesTrans.localScale += (Vector3.right + Vector3 .forward) * _expansionSpeed * Time.deltaTime;
+
+            //電波のサイズを制限
+            _radioWavesTrans.localScale = Vector3.Min ( _radioWavesTrans.localScale , ((Vector3.right + Vector3.forward) * _maxExpansion ) + Vector3.up);
         }
         else
         {
 
-            //何も命令していない状態にする
-            _enumOrderStatus.Value = OrderStatus.None;
+            //電波のサイズをもとに戻す
+            _radioWavesTrans.localScale = _raidioWavesScaleMemory;
+
+            //電波の当たり判定を停止
+            _radioWavesTrans.GetComponent<CapsuleCollider> ().enabled = false;
         }
     }
 

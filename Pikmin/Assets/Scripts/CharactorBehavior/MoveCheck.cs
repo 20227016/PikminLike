@@ -36,8 +36,10 @@ public class MoveCheckClass : MonoBehaviour
 
         //BoxCastの厚み
         float forwardValue = 0.2f;
+
         //ボックスキャストのサイズ
         _cubeSize = new Vector3 ( objTransform.localScale.x , objTransform.localScale.y , forwardValue );
+
         //Rayの距離
         _dist = 0.1f;
 

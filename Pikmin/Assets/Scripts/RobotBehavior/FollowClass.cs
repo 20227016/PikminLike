@@ -8,20 +8,22 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 
-public class FollowClass : MonoBehaviour
+public class FollowClass
 {
 
-    #region メソッド  
-
-    public void Follow(Vector3 target , NavMeshAgent nav , float speed)
+    public void Follow(Vector3 target , NavMeshAgent myAgent , float speed　, float stopDist)
     {
 
-        nav.isStopped = false;
+        //速さを設定
+        myAgent.speed = speed;
 
-        nav.speed = speed;
+        //目的地を設定
+        myAgent.destination = target;
 
-        nav.destination = target;
+        //目的の場所までの近さを設定
+        myAgent.stoppingDistance = stopDist;
+
+        //Agent起動
+        myAgent.isStopped = false;
     }
-  
-    #endregion
 }
