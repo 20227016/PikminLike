@@ -23,6 +23,8 @@ public class RobotsManagerClass : MonoBehaviour
     protected Transform _radioWavieTrans = default;
     [SerializeField, Tooltip ( "Shopオブジェクトのトランスフォーム" )]
     protected Transform _shopTrans = default;
+    [SerializeField, Tooltip ( "NormalRobotsオブジェクトのトランスフォーム" )]
+    protected Transform _normalRobotsTrans = default;
 
     [Header ( "スクリプト" )]
     [SerializeField, Tooltip ( "PlayerManagerスクリプト" )]
@@ -79,15 +81,16 @@ public class RobotsManagerClass : MonoBehaviour
                 _isStart = false;
                 return;
             }
-            Order ();
+            OrderGoToRocation ();
         } ).AddTo ( this );
     }
 
     /// <summary>
-    /// 命令されたときにRobotListの先頭に対して指示をする
+    /// 命令されたときにRobotListの先頭に対して目的の場所まで行く指示をする
     /// </summary>
-    private void Order()
+    private void OrderGoToRocation()
     {
+        print ("アタッチ命令");
 
         //ロボットリストの中身があるとき
         if (_followRobotsList.Count >= 1)
@@ -104,6 +107,10 @@ public class RobotsManagerClass : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 電波にあたったロボットを呼び戻す指示をする
+    /// </summary>
+    /// <param name="normalRobotsClass">電波にあたったロボットのクラス</param>
     private void OrderCall(NormalRobotsClass normalRobotsClass)
     {
 
@@ -126,6 +133,9 @@ public class RobotsManagerClass : MonoBehaviour
 
         //ロボット生成
         GameObject robot = Instantiate ( _nomalRobot );
+
+        //生成したロボットを普通のロボットの親に設定
+        robot.transform.SetParent (_normalRobotsTrans);
 
         //NormalRobotsクラスを取り出す
         NormalRobotsClass normalRobotsClass = robot.transform.GetComponent<NormalRobotsClass> ();

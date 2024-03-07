@@ -19,7 +19,9 @@ public class BaseRobot : MonoBehaviour
     [SerializeField, Tooltip ( "維持にかかるコスト" )]
     protected int _cost = 10;
     [SerializeField, Tooltip ( "プレイヤーとの距離" )]
-    protected float _stopDist = 10;
+    protected float _stopPlayerDist = 3;
+    [SerializeField, Tooltip ( "プレイヤーとの距離" )]
+    protected float _stopLuggageDist = 3;
     [SerializeField, Tooltip ( "目的地についたときの探索範囲" )]
     protected float _searchRange = 10;
     [SerializeField, Tooltip ( "歩く速さ" )]
@@ -27,19 +29,24 @@ public class BaseRobot : MonoBehaviour
 
     //インスタンス化
     protected GoToLocationClass _goToLocation = new GoToLocationClass ();
-    protected StopToLocationClass _stopToLocation = new StopToLocationClass ();
     protected FollowClass _follow = new FollowClass ();
     protected SearchClass _search = new SearchClass ();
+    protected GetClopserClass _getClopser = new GetClopserClass ();
 
     /// <summary>
     /// プレイヤーのトランスフォーム
     /// </summary>
-    private Transform _playerTrans = default;
+   protected Transform _playerTrans = default;
 
     /// <summary>
     /// カーソルのトランスフォーム
     /// </summary>
-    private Transform _cursorTrans = default;
+    protected Transform _cursorTrans = default;
+
+    /// <summary>
+    /// 普通のロボットの親のトランスフォーム
+    /// </summary>
+    protected Transform _normalRobotsTrans = default;
 
     /// <summary>
     /// 自分のNavMesh
@@ -55,43 +62,13 @@ public class BaseRobot : MonoBehaviour
     private void Start()
     {
 
+        print ( "親クラスStart" );
         //Playerオブジェクトのトランスフォームを取得
         _playerTrans = GameObject.Find ( "Player" ).transform;
         //Cursorオブジェクトのトランスフォームを取得
         _cursorTrans = GameObject.Find ( "Cursor" ).transform;
-
-    }
-
-    protected void Follow()
-    {
-
-        //ついていく処理
-        _follow.Follow (_playerTrans.position,_myAgent,_speed,_stopDist);
-    }
-
-    /// <summary>
-    /// 目的地まで向かう処理
-    /// </summary>
-    /// <param name="cursorPos"></param>
-    protected void  GoToLocation()
-    {
-
-        _goToLocation.GoToLocation (_cursorTrans.position ,_myAgent ,_speed , _searchRange);
-        
-    }
-
-    protected void Call()
-    {
-
-        //Agentの動きを止める
-        _stopToLocation.StopToLocation ( _myAgent );
-        Follow ();
-    }
-
-    protected void Search()
-    {
-    
-        
+        //NormalRobotsオブジェクトのトランスフォームを取得
+        _normalRobotsTrans = GameObject.Find ( "NormalRobots" ).transform;
     }
 
     #endregion

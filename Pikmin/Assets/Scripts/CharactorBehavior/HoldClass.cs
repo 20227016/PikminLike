@@ -14,9 +14,6 @@ public class HoldClass : MonoBehaviour
     /// </summary>
     private List<Vector3> _root = default;
 
-    #region メソッド  
-
-
     /// <summary>
     /// 
     /// </summary>
@@ -24,7 +21,7 @@ public class HoldClass : MonoBehaviour
     /// <param name="speed">呼び出したクラスの速さ</param>
     /// <param name="hit">目の前にある荷物の情報が入っている</param>
     /// <returns>持てるかの判断を返す</returns>
-    public bool Holding (int muscleStrength , float speed , Transform hitObjTrans)
+    public bool Hold (int muscleStrength , float speed , Transform hitObjTrans)
      {
 
         //持った荷物の Luggageクラス
@@ -36,6 +33,4 @@ public class HoldClass : MonoBehaviour
         //持てるかの判断を返す
         return isBeHeld;
      }
-  
-    #endregion
 }

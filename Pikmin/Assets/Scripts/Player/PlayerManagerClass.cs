@@ -19,7 +19,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     [Header ( "トランスフォーム" )]
     [SerializeField, Tooltip ( "Cursorオブジェクトのトランスフォーム" )]
     private Transform _cursorTrans = default;
-    [SerializeField, Tooltip ( "Cursorオブジェクトのトランスフォーム" )]
+    [SerializeField, Tooltip ( "RadioWavesオブジェクトのトランスフォーム" )]
     private Transform _radioWavesTrans = default;
 
     [Header ( "スクリプト" )]
@@ -372,7 +372,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
         Transform luggagTrans = _moveHit.collider.gameObject.transform;
 
         //荷物をもつ(ルートとスピードを取得)あとでSpeedメモリーを作り置いたときに代入
-        bool isBeHeld = _holdClass.Holding ( _muscleStrength , _speed , luggagTrans );
+        bool isBeHeld = _holdClass.Hold ( _muscleStrength , _speed , luggagTrans );
 
         //荷物を持っている人数が最大に達していなくて持てる場合
         if (isBeHeld == true)
