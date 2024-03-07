@@ -33,7 +33,7 @@ public class RobotsManagerClass : MonoBehaviour
     /// <summary>
     /// 命令されたこと
     /// </summary>
-    private SelectStatus _enumOrderStatus = SelectStatus.NormalRobot;
+    private SelectStatus _enumSelectStatus = SelectStatus.NormalRobot;
 
     /// <summary>
     /// プレイヤーの配下のロボット
@@ -65,14 +65,14 @@ public class RobotsManagerClass : MonoBehaviour
 
         //中身の値が変わったときに実行
         _playerManager.EnumSelectState.
-        Subscribe ( status =>
+        Subscribe ( enumSelectState =>
         {
-            _enumOrderStatus = status;
+            _enumSelectStatus = enumSelectState;
         } ).AddTo(this);
 
         //中身の値が変わったときに実行
         _playerManager.GaToLocation.
-        Subscribe ( status =>
+        Subscribe ( gaToLocation =>
         {
             //初めの一回目の時
             if (_isStart == true)
@@ -85,6 +85,15 @@ public class RobotsManagerClass : MonoBehaviour
         } ).AddTo ( this );
     }
 
+    private void Update()
+    {
+
+        if (Input.GetKeyDown ( KeyCode.C ))
+        {
+
+            RobotCreat ();
+        }
+    }
     /// <summary>
     /// 命令されたときにRobotListの先頭に対して目的の場所まで行く指示をする
     /// </summary>
@@ -141,17 +150,17 @@ public class RobotsManagerClass : MonoBehaviour
         NormalRobotsClass normalRobotsClass = robot.transform.GetComponent<NormalRobotsClass> ();
 
         normalRobotsClass.IsHitRadioWaves.
-            Subscribe
-            (
-                isHitRadioWaves =>
+        Subscribe
+        (
+            isHitRadioWaves =>
+            {
+                if (isHitRadioWaves == true)
                 {
-                    if (isHitRadioWaves == true)
-                    {
 
-                        OrderCall (normalRobotsClass);
-                    }
+                    OrderCall (normalRobotsClass);
                 }
-            ).AddTo(this);
+            }
+        ).AddTo(this);
 
         //生成したオブジェクトのNormalRobotsクラスをリストに格納
         _followRobotsList.Add(normalRobotsClass);

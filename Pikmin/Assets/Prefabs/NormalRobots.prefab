@@ -173,7 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _muscleStrength: 3
   _cost: 10
-  _stopPlayerDist: 3
+  _stopPlayerDist: 5
   _stopLuggageDist: 2
   _searchRange: 5
   _speed: 14

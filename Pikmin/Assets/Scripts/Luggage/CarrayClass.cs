@@ -27,7 +27,6 @@ public class CarrayClass : MonoBehaviour
         //ナビを起動
         agent.isStopped = false;
 
-        Debug.Log ( speed);
         //移動速度を設定
         agent.speed = speed;
 

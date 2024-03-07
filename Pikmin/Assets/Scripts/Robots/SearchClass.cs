@@ -28,10 +28,11 @@ public class SearchClass : MonoBehaviour
         //Boxcast範囲内のすべてのオブジェクトを取得
         hits = Physics.BoxCastAll ( origen , cubeSize ,robotTrans.forward, Quaternion.identity ,dist );
 
-        //
+        //BoxCastにあたったオブジェクトを見ていく
         foreach (RaycastHit hit in hits)
         {
-            print ( hit.collider );
+
+            //中身が入っているかつ荷物の時
             if (hit.collider != null && hit.collider.CompareTag ( "Luggage" ))
             {
 

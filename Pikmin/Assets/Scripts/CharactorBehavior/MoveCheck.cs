@@ -47,11 +47,6 @@ public class MoveCheckClass : MonoBehaviour
 
         //BoxCastを打つ
         Physics.BoxCast ( _origin , _cubeSize , moveDirection , out hit , objTransform.rotation , _dist );
-
-        if (hit.collider != null)
-        {
-            print ( hit.collider.name );
-        }
         
 
         return hit;

@@ -6,7 +6,8 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
+using System.Collections;
+using UniRx;
 
 public class LuggagesClass : MonoBehaviour
 {
@@ -23,11 +24,19 @@ public class LuggagesClass : MonoBehaviour
     private float _liftHeight = 0.7f;
     [SerializeField, Tooltip ( "持ち上げられる人数" )]
     private int _maxHave = 4;
+    [SerializeField, Tooltip ( "金額" )]
+    private int _monay = 200;
+
+    /// <summary>
+    /// 保管所にいるかの判定
+    /// </summary>
+    private ReactiveProperty<int> _pay = new ReactiveProperty<int>();
+    public IReadOnlyReactiveProperty<int> Pay => _pay;
 
     /// <summary>
     /// 自分のAgentが入る
     /// </summary>
-    private NavMeshAgent _agent = default;
+    private NavMeshAgent _myAgent = default;
 
     /// <summary>
     /// 運べるようになった判定
@@ -62,8 +71,11 @@ public class LuggagesClass : MonoBehaviour
     {
 
         //自分のナビを取得
-        _agent = this.transform.GetComponent<NavMeshAgent> ();
+        _myAgent = this.transform.GetComponent<NavMeshAgent> ();
+
     }
+
+    
 
     /// <summary>
     /// オブジェクトを持つ処理
@@ -73,8 +85,8 @@ public class LuggagesClass : MonoBehaviour
     /// <returns>持てるかの判断</returns>
     public bool BeHeld(int muscleStrength , float speed)
     {
-        Debug.Log (speed);
 
+        
         //持っているオブジェクトの数を加算
         _haveCount++;
         //持っているオブジェクトの筋力の合計を加算
@@ -89,6 +101,12 @@ public class LuggagesClass : MonoBehaviour
             return false;
         }
 
+        //動きを停止
+        _myAgent.isStopped = true;
+        //1秒まった後に動きを再開コルーチンを開始
+        StartCoroutine ( WaitOne () );
+
+
         //持っているオブジェクトの合計筋力が重さを上回った時時
         if (_weight <= _sumMuscleStrength)
         {
@@ -102,7 +120,7 @@ public class LuggagesClass : MonoBehaviour
             _carraySpeed = _sumCarraySpeed / _weight;
 
             //NavMeshで運ぶ処理
-            _carrayClass.OnCarray ( this.transform , _agent , _carraySpeed );
+            _carrayClass.OnCarray ( this.transform , _myAgent , _carraySpeed );
         }
 
         //まだ持てる判定を返す
@@ -140,10 +158,46 @@ public class LuggagesClass : MonoBehaviour
                 }
 
                 //NavMeshを止める処理
-                _carrayClass.OutCarray ( _agent );
+                _carrayClass.OutCarray ( _myAgent );
             }
         }
        
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+        //当たったオブジェクトが保管場所の時
+        if (other.CompareTag ( "StoragePlace" ))
+        {
+
+            //3秒待つコルーチンを開始(Robotがトランスフォームから離れる時間)
+            StartCoroutine ( WaitThree() );
+
+            // 3秒経過後に行いたい処理をここに記述
+            _pay.Value += _monay;
+
+           
+        }
+    }
+
+    private IEnumerator WaitThree()
+    {
+
+        // 3秒待機
+        yield return new WaitForSeconds ( 3 );
+        print ( "3秒待った" );
+        //消す
+        this.gameObject.SetActive ( false );
+    }
+
+    private IEnumerator WaitOne()
+    {
+
+        // 1秒待機
+        yield return new WaitForSeconds ( 1 );
+        //動きを再開
+        _myAgent.isStopped = false;
     }
 
     #endregion

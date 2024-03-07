@@ -211,17 +211,28 @@ public class NormalRobotsClass : BaseRobot　
     /// 電波にあたった時にBoolを反応させる
     /// </summary>
     /// <param name="other">当たったTriggerCollider</param>
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggereEnter(Collider other)
     {
 
         //当たったものが電波の場合
         if (other.CompareTag ( "RadioWaves" ))
         {
 
+            //電波にあたった判定にする
             _isHitRadioWaves.Value = true;
+            //電波にあたってない判定にする
             _isHitRadioWaves.Value = false;
         }
+
+        //当たったものが保管所の時
+        else if (other.CompareTag ( "StoragePlace" ))
+        {
+
+            //親を自分の普通のロボットの親に設定
+            this.transform.SetParent ( _normalRobotsTrans );
+        }
     }
+
 
     #endregion
 }

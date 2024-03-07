@@ -62,7 +62,6 @@ public class BaseRobot : MonoBehaviour
     private void Start()
     {
 
-        print ( "親クラスStart" );
         //Playerオブジェクトのトランスフォームを取得
         _playerTrans = GameObject.Find ( "Player" ).transform;
         //Cursorオブジェクトのトランスフォームを取得
