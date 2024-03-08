@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1373695660727945216}
   - component: {fileID: -1092937019571088249}
   - component: {fileID: 6994291350490930903}
-  - component: {fileID: 1756316103083398259}
+  - component: {fileID: 4396241065662050739}
   m_Layer: 2
   m_Name: NormalRobots
   m_TagString: Untagged
@@ -159,7 +159,7 @@ NavMeshAgent:
   m_BaseOffset: 0.99999994
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1756316103083398259
+--- !u!114 &4396241065662050739
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _muscleStrength: 3
   _cost: 10
-  _stopPlayerDist: 5
-  _stopLuggageDist: 2
-  _searchRange: 5
-  _speed: 14
+  _stopPlayerDist: 3
+  _stopLuggageDist: 3
+  _searchRange: 10
+  _speed: 10

@@ -98,11 +98,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     private Vector3 _raidioWavesScaleMemory = default;
 
     /// <summary>
-    /// 連れているロボットの量
-    /// </summary>
-    private int _robotCount = default;
-
-    /// <summary>
     /// enumの要素数
     /// </summary>
     private int _enumSelectMaxIndex = default;
@@ -309,7 +304,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
                 }
 
                 break;
-
         }
     }
 
@@ -327,8 +321,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
             _goToLocation.Value++;
 
         }
-
- 
 
         //戻って来させるボタンが長押しされたら
         if (_onPutOrCall.action.IsInProgress ())

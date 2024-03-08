@@ -1,20 +1,22 @@
 // ---------------------------------------------------------  
-// MoneyPresenter.cs  
+// TimeLimitPresenterClass.cs  
 //   
-// 作成日:  3/7
+// 作成日:  2/7
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
+using System.Collections;
 using UniRx;
 
-public class MoneyPresenterClass : MonoBehaviour
+public class TimeLimitPresenterClass : MonoBehaviour
 {
-
     [Header ( "スクリプト" )]
     [SerializeField, Tooltip ( "GameManagerクラス（Model）" )]
     private GameManagerClass _gameManager = default;
     [SerializeField, Tooltip ( "UIMoneyクラス（View）" )]
-    private UIMoneyClass _uIMoney = default;
+    private UITimeLimitClass _uITimeLimitClass = default;
+
+    private bool _isStart = true;
 
     /// <summary>  
     /// 仲介処理
@@ -22,12 +24,19 @@ public class MoneyPresenterClass : MonoBehaviour
     void Awake()
     {
 
+
+
         //中の値が変わったときに実行
-        _gameManager.Money.Subscribe ( money =>
-        {
-            _uIMoney.View ( money );
-        }
-        ).AddTo ( this );
+        _gameManager.TimeLimit.
+            Subscribe ( timeLimit =>
+            {
+                if (_isStart == false)
+                {
+                    _isStart = true;
+                    return;
+                }
+                _uITimeLimitClass.View ( timeLimit );
+            }
+            ).AddTo ( this );
     }
-  
 }

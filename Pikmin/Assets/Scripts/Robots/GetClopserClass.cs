@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 
-public class GetClopserClass : MonoBehaviour
+public class GetClopserClass 
 {
 
     public void GetCloser(Vector3 target , NavMeshAgent myAgent ,float stopDist)

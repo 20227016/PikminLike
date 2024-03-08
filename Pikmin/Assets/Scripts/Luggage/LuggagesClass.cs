@@ -127,6 +127,11 @@ public class LuggagesClass : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// 荷物を降ろす処理
+    /// </summary>
+    /// <param name="muscleStrength">持っていたオブジェクトの力</param>
+    /// <param name="speed">持っていたオブジェクトの速さ</param>
     public void BePlaced(int muscleStrength , float speed)
     {
         //持っているオブジェクトの数を減算
@@ -164,6 +169,10 @@ public class LuggagesClass : MonoBehaviour
        
     }
 
+    /// <summary>
+    /// モノに当たった時の処理
+    /// </summary>
+    /// <param name="other">当たったトリガーコライダー</param>
     private void OnTriggerEnter(Collider other)
     {
 
@@ -173,11 +182,6 @@ public class LuggagesClass : MonoBehaviour
 
             //3秒待つコルーチンを開始(Robotがトランスフォームから離れる時間)
             StartCoroutine ( WaitThree() );
-
-            // 3秒経過後に行いたい処理をここに記述
-            _pay.Value += _monay;
-
-           
         }
     }
 
@@ -186,7 +190,9 @@ public class LuggagesClass : MonoBehaviour
 
         // 3秒待機
         yield return new WaitForSeconds ( 3 );
-        print ( "3秒待った" );
+
+        //お金を払う
+        _pay.Value += _monay;
         //消す
         this.gameObject.SetActive ( false );
     }

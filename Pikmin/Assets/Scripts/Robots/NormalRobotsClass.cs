@@ -122,6 +122,8 @@ public class NormalRobotsClass : BaseRobot　
 
             case RobotStatus.Hold:
 
+                print ( "持っている" );
+
                 //荷物に近づけてないときかつ荷物を持っていないとき
                 if (_isGetCloserl == false && _isHold == false)
                 {
@@ -214,6 +216,7 @@ public class NormalRobotsClass : BaseRobot　
     private void OnTriggereEnter(Collider other)
     {
 
+        print ( "入って入る" );
         //当たったものが電波の場合
         if (other.CompareTag ( "RadioWaves" ))
         {
@@ -228,6 +231,7 @@ public class NormalRobotsClass : BaseRobot　
         else if (other.CompareTag ( "StoragePlace" ))
         {
 
+            print ( "当たってはいる" );
             //親を自分の普通のロボットの親に設定
             this.transform.SetParent ( _normalRobotsTrans );
         }

@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class UIMoney : MonoBehaviour
+public class UIMoneyClass : MonoBehaviour
 {
 
     /// <summary>
@@ -22,7 +22,7 @@ public class UIMoney : MonoBehaviour
     /// 所持金をUIに表示
     /// </summary>
     /// <param name="money">所持金</param>
-    public void View(int money)
+    public void View(float money)
     {
 
         //所持金表示

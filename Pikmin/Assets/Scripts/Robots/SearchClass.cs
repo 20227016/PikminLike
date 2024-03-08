@@ -7,11 +7,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class SearchClass : MonoBehaviour
+public class SearchClass
 {
     public RaycastHit Search(Transform robotTrans , float searchRange)
     {
-        //Physics.BoxCast ( _origin , _cubeSize , moveDirection , out hit , objTransform.rotation , _dist );
 
         //複数のcolliderが入る
         RaycastHit [] hits = default;

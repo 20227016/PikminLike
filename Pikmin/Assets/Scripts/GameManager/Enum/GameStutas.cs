@@ -4,7 +4,7 @@ public enum GameStatus
     Title,
     Main,
     Shop,
-    Clear,
+    Complete,
     Result,
     Over
 }

@@ -6,6 +6,7 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UniRx;
 
 public class GameManagerClass : MonoBehaviour
@@ -13,8 +14,16 @@ public class GameManagerClass : MonoBehaviour
 
     #region 変数  
 
-    [Header("ステータス")]
-    [SerializeField,Tooltip("制限時間")]
+    [Header ( "InputSystem" )]
+    [SerializeField, Tooltip ( "InputSystemのOpenShopが入る" )]
+    private InputActionReference _onOpenShop = default;
+    [Header ( "制限時間" )]
+    [SerializeField, Tooltip ( "分" )]
+    private float _minutes = default;
+    [SerializeField, Tooltip ( "秒" )]
+    private float _seconds = default;
+
+
     private ReactiveProperty<float> _timeLimit = new ReactiveProperty<float> ();
     public IReadOnlyReactiveProperty<float> TimeLimit => _timeLimit;
 
@@ -38,7 +47,8 @@ public class GameManagerClass : MonoBehaviour
     /// <summary>
     /// ゲームのステータス
     /// </summary>
-    private GameStatus _gameStatus = GameStatus.Title;
+    private GameStatus _gameStatus = GameStatus.Main;
+
 
     #endregion
 
@@ -46,6 +56,9 @@ public class GameManagerClass : MonoBehaviour
 
     private void Start()
     {
+
+        //変換
+        _timeLimit.Value = (_minutes * 60) + _seconds;
 
         //荷物たちの親オブジェクトが入る
         GameObject luggagesObj = GameObject.Find ( "Luggages" );
@@ -60,20 +73,26 @@ public class GameManagerClass : MonoBehaviour
             //残りの荷物数を数える
             _remainingLuggage.Value++;
 
-            print ( luggagesClass.transform );
-
             //中身の値が変わったときに実行
             luggagesClass.Pay.
-            Subscribe 
-            ( 
+            Subscribe
+            (
                 pay =>
                 {
 
-                    AddMonay ( pay );
+                    AddMoney ( pay );
+                },
+                check =>
+                {
+
+                    Completed ();
                 }
             ).AddTo (this);
         
         }
+
+
+       
     }
 
     /// <summary>  
@@ -82,19 +101,81 @@ public class GameManagerClass : MonoBehaviour
     void Update ()
     {
 
-        //タイムカウント
-        _timeLimit.Value -= Time.deltaTime;
+        switch (_gameStatus)
+        {
+            case GameStatus.Title:
+
+                break;
+
+            case GameStatus.Main:
+
+                
+                //タイムカウント
+                _timeLimit.Value -= Time.deltaTime;
+
+                //ショップボタンが押された時
+                if (_onOpenShop.action.WasPressedThisFrame ())
+                {
+
+                    //ステータスをショップに切り替える
+                    _gameStatus = GameStatus.Shop;
+                }
+
+                //時間制限の時
+                if (_timeLimit.Value <= 0)
+                {
+
+                    _gameStatus = GameStatus.Result;
+                }
+                break;
+
+            case GameStatus.Shop:
+
+                //ショップボタンが押された時
+                if (_onOpenShop.action.WasPressedThisFrame ())
+                {
+
+                    //ステータスをメインに切り替える
+                    _gameStatus = GameStatus.Main;
+                }
+                break;
+
+            case GameStatus.Complete:
+
+                break;
+
+            case GameStatus.Over:
+
+                break;
+
+            case GameStatus.Result:
+
+                break;
+        }
+ 
     }
 
-    private void AddMonay(int money)
+    private void AddMoney(int money)
     {
-
-        //残りの荷物の数を減らす
-        _remainingLuggage.Value--;
-
         //所持金加算
         _money.Value += money;
     }
-  
+
+    /// <summary>
+    /// 運べる荷物がなくなった時の処理
+    /// </summary>
+    private void Completed()
+    {
+        //残りの荷物の数を減らす
+        _remainingLuggage.Value--;
+
+        //残りの荷物がなくなった時
+        if (_remainingLuggage.Value <= 0)
+        {
+
+            //コンプリートした状態に切り替える
+            _gameStatus = GameStatus.Complete;
+        }
+    }
     #endregion
 }

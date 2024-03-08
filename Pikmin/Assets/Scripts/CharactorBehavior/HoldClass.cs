@@ -10,12 +10,7 @@ using System.Collections.Generic;
 public class HoldClass : MonoBehaviour
 {
     /// <summary>
-    /// 運ぶルート
-    /// </summary>
-    private List<Vector3> _root = default;
-
-    /// <summary>
-    /// 
+    /// 引数を使いモノを運ぶ
     /// </summary>
     /// <param name="muscleStrength">呼び出したクラスの持てる重さ</param>
     /// <param name="speed">呼び出したクラスの速さ</param>

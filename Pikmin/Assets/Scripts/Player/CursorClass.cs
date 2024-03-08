@@ -16,11 +16,6 @@ public class CursorClass : MonoBehaviour
     [Header ( "トランスフォーム" )]
     [SerializeField, Tooltip ( "Playerオブジェクトのトランスフォーム" )]
     private Transform _playerTrans = default;
-    [Header ( "スクリプト" )]
-    [SerializeField, Tooltip ( "Moveスクリプト" )]
-    private WalkClass _wakeClass = default;
-    [SerializeField, Tooltip ( "Rotateスクリプト" )]
-    private RotateClass _rotateClass = default;
     [Header ( "InputSystem" )]
     [SerializeField, Tooltip ( "InputSystemのMoveが入る" )]
     private InputActionReference _onCursorMove = default;
