@@ -128,6 +128,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     /// </summary>
     private void Start()
     {
+
         //電波のサイズを記憶
         _raidioWavesScaleMemory = _radioWavesTrans.localScale;
         //SelectStatus(Enum)の最大インデックス取得
@@ -142,7 +143,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
 
         //プレイヤーの処理
         PlayerProcess ();
-        
     }
 
     /// <summary>
@@ -168,7 +168,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
 
         //カメラから見た入力値を取得
         _moveVec = (cameraForward * inputValue.z) + (cameraRight * inputValue.x);
-
     }
 
     /// <summary>
@@ -319,7 +318,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
 
             //目的の場所（カーソル）まで行かせる入力をする
             _goToLocation.Value++;
-
         }
 
         //戻って来させるボタンが長押しされたら
