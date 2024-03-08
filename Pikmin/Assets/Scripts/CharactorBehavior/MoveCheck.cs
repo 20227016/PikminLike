@@ -19,7 +19,7 @@ public class MoveCheckClass : MonoBehaviour
     /// 移動方向を調べたRayの情報を返す
     /// </summary>
     /// <param name="moveDirection">移動方向(xyzそれぞれ0~1)</param>
-    /// <param name="objectPos">移動するオブジェクトの位置</param>
+    /// <param name="objTransform">移動するオブジェクトのトランスフォーム</param>
     /// <returns>Ray情報</returns>
     public RaycastHit Check(Transform objTransform,Vector3 moveDirection)
     {

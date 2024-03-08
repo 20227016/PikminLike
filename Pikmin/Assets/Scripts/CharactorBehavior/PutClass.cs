@@ -1,6 +1,6 @@
 // ---------------------------------------------------------  
 // PutClass.cs  
-//   
+//   荷物を置く
 // 作成日:  2/27~
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
@@ -11,11 +11,11 @@ public class PutClass : MonoBehaviour
 {
 
     /// <summary>
-    /// 
+    ///     荷物を置く処理
     /// </summary>
     /// <param name="muscleStrength">呼び出したクラスの持てる重さ</param>
     /// <param name="speed">呼び出したクラスの速さ</param>
-    /// <param name="hit">目の前にある荷物の情報が入っている</param>
+    /// <param name="hitObjTrans">目の前にある荷物の情報が入っている</param>
     public void Put (int muscleStrength , float speed , Transform hitObjTrans)
     {
 

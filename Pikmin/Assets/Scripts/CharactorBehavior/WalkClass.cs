@@ -11,10 +11,6 @@ using System.Collections;
 public class WalkClass : MonoBehaviour
 {
 
-    #region 変数
-    #endregion
-
-    #region メソッド
 
     /// <summary>
     /// 移動する方向を決める
@@ -30,5 +26,4 @@ public class WalkClass : MonoBehaviour
     }
 
 
-    #endregion
 }
