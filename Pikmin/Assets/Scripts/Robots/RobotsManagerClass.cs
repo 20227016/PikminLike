@@ -99,7 +99,6 @@ public class RobotsManagerClass : MonoBehaviour
     /// </summary>
     private void OrderGoToRocation()
     {
-        print ("アタッチ命令");
 
         //ロボットリストの中身があるとき
         if (_followRobotsList.Count >= 1)
@@ -140,8 +139,8 @@ public class RobotsManagerClass : MonoBehaviour
     public void RobotCreat()
     {
 
-        //ロボット生成
-        GameObject robot = Instantiate ( _nomalRobot );
+        //位置を指定してロボット生成
+        GameObject robot = Instantiate ( _nomalRobot , _shopTrans.position  , Quaternion.identity);
 
         //生成したロボットを普通のロボットの親に設定
         robot.transform.SetParent (_normalRobotsTrans);
@@ -160,13 +159,11 @@ public class RobotsManagerClass : MonoBehaviour
                     OrderCall (normalRobotsClass);
                 }
             }
-        ).AddTo(this);
+        ).AddTo(normalRobotsClass);
 
         //生成したオブジェクトのNormalRobotsクラスをリストに格納
         _followRobotsList.Add(normalRobotsClass);
 
-        //最後尾の生成されたばかりのオブジェクトの位置をショップにする
-        _followRobotsList [ _followRobotsList.Count - 1 ].transform.position = _shopTrans.position;
     }
   
 

@@ -11,8 +11,6 @@ using UnityEngine.AI;
 public class BaseRobot : MonoBehaviour
 {
 
-    #region 変数  
-
     [Header("ステータス")]
     [SerializeField, Tooltip ( "持てる重さ" )]
     protected int _muscleStrength = 3;
@@ -20,7 +18,7 @@ public class BaseRobot : MonoBehaviour
     protected int _cost = 10;
     [SerializeField, Tooltip ( "プレイヤーとの距離" )]
     protected float _stopPlayerDist = 3;
-    [SerializeField, Tooltip ( "プレイヤーとの距離" )]
+    [SerializeField, Tooltip ( "荷物との距離" )]
     protected float _stopLuggageDist = 3;
     [SerializeField, Tooltip ( "目的地についたときの探索範囲" )]
     protected float _searchRange = 10;
@@ -53,12 +51,6 @@ public class BaseRobot : MonoBehaviour
     /// </summary>
     protected NavMeshAgent　_myAgent = default;
 
-
-
-    #endregion
-
-    #region メソッド  
-
     private void Start()
     {
 
@@ -69,6 +61,4 @@ public class BaseRobot : MonoBehaviour
         //NormalRobotsオブジェクトのトランスフォームを取得
         _normalRobotsTrans = GameObject.Find ( "NormalRobots" ).transform;
     }
-
-    #endregion
 }

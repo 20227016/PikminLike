@@ -13,10 +13,26 @@ public class GameManagerClass : MonoBehaviour
 {
 
     #region 変数  
+    [Header ( "トランスフォーム" )]
+    [SerializeField, Tooltip ( "MainPanelのトランスフォーム" )]
+    private GameObject _mainPanel = default;
+    [SerializeField, Tooltip ( "ShopPanelのトランスフォーム" )]
+    private GameObject _shopPanel = default;
+
+    [Header ( "スクリプト" )]
+    [SerializeField, Tooltip ( "PlayerManagerスクリプト" )]
+    private PlayerManagerClass _playerManager = default;
+    [SerializeField, Tooltip ( "LuggageManagerスクリプト" )]
+    private LuggagesClass _luggageManager = default;
+    [SerializeField, Tooltip ( "ShopManagerスクリプト" )]
+    private ShopManager _shopManager = default;
+    [SerializeField, Tooltip ( "RobotsManagerClassスクリプト" )]
+    private RobotsManagerClass _robotsManager = default;
 
     [Header ( "InputSystem" )]
     [SerializeField, Tooltip ( "InputSystemのOpenShopが入る" )]
     private InputActionReference _onOpenShop = default;
+
     [Header ( "制限時間" )]
     [SerializeField, Tooltip ( "分" )]
     private float _minutes = default;
@@ -96,20 +112,32 @@ public class GameManagerClass : MonoBehaviour
     }
 
     /// <summary>  
-    /// 更新処理  
+    /// ステータスで処理
     /// </summary>  
     void Update ()
     {
 
+        //ステータスで処理を切り替え
         switch (_gameStatus)
         {
             case GameStatus.Title:
 
+                _playerManager.enabled = false;
+                //_luggageManager.enabled = false;
+                _robotsManager.enabled = false;
+                _shopManager.enabled = false;
                 break;
 
             case GameStatus.Main:
 
-                
+                _mainPanel.SetActive ( true );
+                _shopPanel.SetActive ( false );
+
+                _playerManager.enabled = true;
+                //_luggageManager.enabled = true;
+                _robotsManager.enabled = true;
+                _shopManager.enabled = false;
+
                 //タイムカウント
                 _timeLimit.Value -= Time.deltaTime;
 
@@ -121,15 +149,24 @@ public class GameManagerClass : MonoBehaviour
                     _gameStatus = GameStatus.Shop;
                 }
 
-                //時間制限の時
+                //時間制限に達した時
                 if (_timeLimit.Value <= 0)
                 {
 
+                    //ステータスをリザルトに切り替える
                     _gameStatus = GameStatus.Result;
                 }
                 break;
 
             case GameStatus.Shop:
+
+                _mainPanel.SetActive ( false );
+                _shopPanel.SetActive ( true );
+
+                _playerManager.enabled = false;
+                //_luggageManager.enabled = false;
+                _robotsManager.enabled = false;
+                _shopManager.enabled = true;
 
                 //ショップボタンが押された時
                 if (_onOpenShop.action.WasPressedThisFrame ())
@@ -142,14 +179,26 @@ public class GameManagerClass : MonoBehaviour
 
             case GameStatus.Complete:
 
+                _playerManager.enabled = false;
+                //_luggageManager.enabled = false;
+                _robotsManager.enabled = false;
+                _shopManager.enabled = false;
                 break;
 
             case GameStatus.Over:
 
+                _playerManager.enabled = false;
+                //_luggageManager.enabled = false;
+                _robotsManager.enabled = false;
+                _shopManager.enabled = false;
                 break;
 
             case GameStatus.Result:
 
+                _playerManager.enabled = false;
+                //_luggageManager.enabled = false;
+                _robotsManager.enabled = false;
+                _shopManager.enabled = false;
                 break;
         }
  

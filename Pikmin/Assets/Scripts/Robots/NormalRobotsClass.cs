@@ -55,6 +55,11 @@ public class NormalRobotsClass : BaseRobot　
     /// </summary>
     private bool _isHold = default;
 
+    /// <summary>
+    /// 荷物をおく必要があるかの判定
+    /// </summary>
+    private bool _isPut = default;
+
     #endregion
 
     #region メソッド  
@@ -77,10 +82,14 @@ public class NormalRobotsClass : BaseRobot　
     private void Update()
     {
 
-
         //命令による行動分岐
         switch (_enumRobotStatus)
         {
+
+            case RobotStatus.Idel:
+
+                //Collで呼ばれるまで変わらない
+                break;
 
             case RobotStatus.Follow:
 
@@ -116,13 +125,18 @@ public class NormalRobotsClass : BaseRobot　
 
                         return;
                     }
+                    //コライダーの中に荷物がない場合
+                    else
+                    {
+
+                        //ステータスを待機に切り替える
+                        _enumRobotStatus = RobotStatus.Idel;
+                    }
 
                 }
                 break;
 
             case RobotStatus.Hold:
-
-                print ( "持っている" );
 
                 //荷物に近づけてないときかつ荷物を持っていないとき
                 if (_isGetCloserl == false && _isHold == false)
@@ -134,17 +148,17 @@ public class NormalRobotsClass : BaseRobot　
                     _getClopser.GetCloser ( _hit.collider.transform.position , _myAgent , _stopLuggageDist );
                 }
 
+                
                 //荷物の近くまで近づいたとき
                 if (_myAgent.remainingDistance <= _myAgent.stoppingDistance)
                 {
-
+            
                     //荷物まで近づけてない判定にする
                     _isGetCloserl = false;
 
                     //持たせてない判定の時
                     if (_isHold == false)
                     {
-
                         //持たせた判定にする
                         _isHold = true;
                         //荷物を自分の親に設定
@@ -155,51 +169,77 @@ public class NormalRobotsClass : BaseRobot　
                         _myAgent.updatePosition = false;
                         _myAgent.updateRotation = false;
                         //荷物を持つ処理
-                        _hold.Hold ( _muscleStrength , _speed , _hit.collider.transform );
+                        _isPut = _hold.Hold ( _muscleStrength , _speed , _hit.collider.transform );
+                    }
+
+                    //荷物を置く必要があるとき
+                    if (_isPut == false)
+                    {
+
+                        //ステータスを奥に切り替える
+                        _enumRobotStatus = RobotStatus.Put;
                     }
                 }
 
+                
+
+                break;
+
+            case RobotStatus.Put:
+
+
+                //持たせてない判定にする
+                _isHold = false;
+                //Agentの動きを止める
+                _myAgent.isStopped = true;
+                // NavMeshAgentが停止している場合でも、親のトランスフォームに追従するように設定
+                _myAgent.updatePosition = true;
+                _myAgent.updateRotation = true;
+                _put.Put ( _muscleStrength , _speed , _hit.collider.transform );
+                //親を自分の普通のロボットの親に設定
+                transform.SetParent ( _normalRobotsTrans );
+                //ステータスを待機に切り替える
+                _enumRobotStatus = RobotStatus.Idel;
                 break;
 
             case RobotStatus.Call:
 
                 //目的の場所まで向かわせてない判定にする
                 _isGoToLocation = false;
+                //荷物まで近づけていない判定にする
+                _isGetCloserl = false;
+
                 //荷物を持っているとき
                 if (_isHold == true)
                 {
 
-                    //持たせてない判定にする
-                    _isHold = false;
-                    //Agentの動きを止める
-                    _myAgent.isStopped = true;
-                    // NavMeshAgentが停止している場合でも、親のトランスフォームに追従するように設定
-                    _myAgent.updatePosition = true;
-                    _myAgent.updateRotation = true;
-                    _put.Put ( _muscleStrength , _speed , _hit.collider.transform );
-                    //親を自分の普通のロボットの親に設定
-                    transform.SetParent ( _normalRobotsTrans );
+                    //ステータスを置く切り替える
+                    _enumRobotStatus = RobotStatus.Put;
                 }
-                
-                //ステータスをついて行くに切り替える
-                _enumRobotStatus = RobotStatus.Follow; 
+                else
+                {
+
+                    //ステータスをついて行くに切り替える
+                    _enumRobotStatus = RobotStatus.Follow;
+                }
+
                 break;
         }
     }
 
     /// <summary>
-    /// 命令によってステータスをGoToLocationに変える
+    /// 命令によってステータスをGoToLocationに切り替える
     /// </summary>
     public void SwitchStatusGoToLocation()
     {
+
         //ステータスを目的の場所まで移動に切り替え
         _enumRobotStatus = RobotStatus.GoToLocation;
-
     }
 
 
     /// <summary>
-    /// 命令によってステータスをCallに帰る
+    /// 命令によってステータスをCallに切り替える
     /// </summary>
     public void SwitchStatusCall()
     {
@@ -213,10 +253,9 @@ public class NormalRobotsClass : BaseRobot　
     /// 電波にあたった時にBoolを反応させる
     /// </summary>
     /// <param name="other">当たったTriggerCollider</param>
-    private void OnTriggereEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
 
-        print ( "入って入る" );
         //当たったものが電波の場合
         if (other.CompareTag ( "RadioWaves" ))
         {
@@ -231,12 +270,19 @@ public class NormalRobotsClass : BaseRobot　
         else if (other.CompareTag ( "StoragePlace" ))
         {
 
-            print ( "当たってはいる" );
-            //親を自分の普通のロボットの親に設定
-            this.transform.SetParent ( _normalRobotsTrans );
+            //2秒待つコルーチンを開始(Robotが保管所の中心まで行く時間)
+            StartCoroutine ( WaitOne () );
         }
     }
+    private IEnumerator WaitOne()
+    {
 
+        // 1秒待機
+        yield return new WaitForSeconds ( 1 );
+
+        //親を自分の普通のロボットの親に設定
+        this.transform.SetParent ( _normalRobotsTrans );
+    }
 
     #endregion
 }

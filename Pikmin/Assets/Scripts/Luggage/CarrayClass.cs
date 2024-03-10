@@ -38,8 +38,9 @@ public class CarrayClass : MonoBehaviour
     /// 置かれたとき
     /// </summary>
     /// <param name="agent">参照している荷物のナビ</param>
-    public void OutCarray(NavMeshAgent agent)
+    public void StopCarray(NavMeshAgent agent)
     {
+
         //ナビを停止
         agent.isStopped = true;
 

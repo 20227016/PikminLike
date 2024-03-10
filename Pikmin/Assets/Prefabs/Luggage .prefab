@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6230257999370040629}
   - component: {fileID: 6515832886645701572}
   - component: {fileID: 1501022592855404202}
+  - component: {fileID: 1913100481666042404}
   - component: {fileID: 6030626708721601443}
   - component: {fileID: 7348015300314919796}
   m_Layer: 0
@@ -30,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 5064163014709622369}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 44.520004, y: 2, z: -9.199921}
+  m_LocalPosition: {x: 43.785923, y: 2, z: 17.350487}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -107,6 +108,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1913100481666042404
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064163014709622369}
+  serializedVersion: 4
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!195 &6030626708721601443
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -118,16 +146,16 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 1
   m_Speed: 0
-  m_Acceleration: 8
+  m_Acceleration: 300
   avoidancePriority: 50
-  m_AngularSpeed: 300
+  m_AngularSpeed: 500
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: 0.5
-  m_WalkableMask: 4294967295
+  m_BaseOffset: 0
+  m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
 --- !u!114 &7348015300314919796
 MonoBehaviour:
@@ -145,3 +173,4 @@ MonoBehaviour:
   _weight: 1
   _liftHeight: 0.7
   _maxHave: 4
+  _monay: 200
