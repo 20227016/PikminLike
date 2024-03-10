@@ -34,7 +34,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     [SerializeField, Tooltip ( "Putスクリプト" )]
     private PutClass _putClass = default;
 
-    [Header ( "InputSystem" )]
+    [Header ( "InputSystem(Player)" )]
     [SerializeField, Tooltip ( "InputSystemのMoveが入る" )]
     private InputActionReference _onMove = default;
     [SerializeField, Tooltip ( "InputSystemのHoldOrGotoLocationが入る" )]

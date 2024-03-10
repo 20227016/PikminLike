@@ -1991,46 +1991,6 @@ MonoBehaviour:
     m_ActionId: 7ed05250-3cf1-4dcb-ae77-f85eca212c10
     m_ActionName: Player/Hold[/Mouse/rightButton]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6eaf5394-9a6a-4d44-9fbe-5a5da5a82c79
-    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 454ee941-acaa-4b91-9c4d-e5fa516d8f91
-    m_ActionName: UI/Submit[/Keyboard/enter]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 41b0b326-097f-49d0-8d68-3f35fc393607
-    m_ActionName: UI/Cancel[/Keyboard/escape]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: bc038ebd-39b8-40a6-9abd-84a2507985f9
-    m_ActionName: UI/Point[/Mouse/position]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 9bbb2e21-fb99-42af-a577-b486a620c306
-    m_ActionName: UI/Click[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 9f116f11-f5f8-4963-add8-9b11f12639b7
-    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 3d220876-2fb2-4791-b0ee-8334fa5deaa5
-    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e6325a2c-2e32-47da-b724-ff0a7bc52712
-    m_ActionName: UI/RightClick[/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: dbd25009-bc7c-4b8f-aa47-07b6555e8094
-    m_ActionName: UI/TrackedDevicePosition
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 4797b338-c325-4dbd-b699-409c51f5197b
-    m_ActionName: UI/TrackedDeviceOrientation
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 460499501}
         m_TargetAssemblyTypeName: PlayerManagerClass, Assembly-CSharp
@@ -2114,6 +2074,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 63331c10-8603-4398-bad5-ca9f5529e679
     m_ActionName: Player/New action
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e83d0fdf-11d1-4d04-9658-b3c89289de61
+    m_ActionName: UI/New action
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f90c2862-0400-442e-8c7c-d3c0f74d2ef9
+    m_ActionName: UI/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -5948,6 +5916,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9922dca053310440a7a255650b327e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onMove: {fileID: 0}
+  _onDecision: {fileID: 0}
+  _cursorTrans: {fileID: 0}
+  _radioWavesTrans: {fileID: 0}
 --- !u!1 &1295069455
 GameObject:
   m_ObjectHideFlags: 0
