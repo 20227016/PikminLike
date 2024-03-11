@@ -10,10 +10,12 @@ using UnityEngine;
 public class MoveCheckClass : MonoBehaviour
 {
     
+    
+    //Rayの構成部品
     private Vector3 _origin = default;
     private Vector3 _cubeSize = default;
     private float _dist = default;
-    Transform _objTransfrom = default;
+    private Transform _objTransfrom = default;
 
     /// <summary>
     /// 移動方向を調べたRayの情報を返す

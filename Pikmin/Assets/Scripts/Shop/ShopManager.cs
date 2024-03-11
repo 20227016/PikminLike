@@ -13,17 +13,7 @@ public class ShopManager : MonoBehaviour
 
     #region 変数  
 
-    [Header ( "InputSystem(UI)" )]
-    [SerializeField, Tooltip ( "InputSystemのMoveが入る" )]
-    private InputActionReference _onMove = default;
-    [SerializeField, Tooltip ( "InputSystemのMoveが入る" )]
-    private InputActionReference _onDecision = default;
 
-    [Header ( "トランスフォーム" )]
-    [SerializeField, Tooltip ( "Cursorオブジェクトのトランスフォーム" )]
-    private Transform _cursorTrans = default;
-    [SerializeField, Tooltip ( "RadioWavesオブジェクトのトランスフォーム" )]
-    private Transform _radioWavesTrans = default;
     #endregion
 
     #region メソッド  
@@ -33,6 +23,7 @@ public class ShopManager : MonoBehaviour
     /// </summary>  
     void Awake()
      {
+
      }
   
      /// <summary>  
