@@ -14,6 +14,6 @@ public class BaseLuggageClass : MonoBehaviour
     [SerializeField, Tooltip ( "Carrayのスクリプト" )]
     protected CarrayClass _carrayClass = default;
     [SerializeField, Tooltip ( "MoneyManagerのスクリプト" )]
-    protected MoneyManagerClass _moneyManager = default;
+    protected PossessionMoneyClass _possessionMoney = default;
 
 }

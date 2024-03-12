@@ -390,9 +390,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     /// </summary>
     private void Put()
     {
-
         
-
         //持った荷物のオブジェクトのトランスフォームを取得
         Transform luggagTrans = _moveHit.collider.gameObject.transform;
 

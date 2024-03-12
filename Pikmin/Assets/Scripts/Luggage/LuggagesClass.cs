@@ -174,7 +174,7 @@ public class LuggagesClass : BaseLuggageClass
         //運ばれていない判定にする
         _isCarray = false;
         //お金を払う
-        _moneyManager.MoneyCupsule.Value = _money;
+        _possessionMoney.PossessionMoneyCupsule.Value = _money;
 
         //Activになっていない判定にする
         _isActiv.Value = false;

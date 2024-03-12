@@ -1936,7 +1936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carrayClass: {fileID: 853957061}
-  _moneyManager: {fileID: 1753162537}
+  _possessionMoney: {fileID: 1753162537}
 --- !u!1 &460499497
 GameObject:
   m_ObjectHideFlags: 0
@@ -2394,6 +2394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _robotsManager: {fileID: 727719094}
+  _possessionMoney: {fileID: 1753162537}
   _normalRobotPrice: 100
 --- !u!1 &559812753
 GameObject:
@@ -3754,6 +3755,7 @@ MonoBehaviour:
   _shopTrans: {fileID: 1287448673}
   _normalRobotsTrans: {fileID: 671985276}
   _playerManager: {fileID: 460499501}
+  _possessionMoney: {fileID: 0}
 --- !u!1 &730983292
 GameObject:
   m_ObjectHideFlags: 0
@@ -12345,7 +12347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carrayClass: {fileID: 853957061}
-  _moneyManager: {fileID: 1753162537}
+  _possessionMoney: {fileID: 1753162537}
   _weight: 2
   _liftHeight: 0.7
   _maxHave: 2
@@ -12509,7 +12511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carrayClass: {fileID: 853957061}
-  _moneyManager: {fileID: 1753162537}
+  _possessionMoney: {fileID: 1753162537}
   _weight: 2
   _liftHeight: 0.7
   _maxHave: 2

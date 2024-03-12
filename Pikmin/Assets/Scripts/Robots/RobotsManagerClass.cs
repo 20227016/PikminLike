@@ -29,6 +29,9 @@ public class RobotsManagerClass : MonoBehaviour
     [Header ( "スクリプト" )]
     [SerializeField, Tooltip ( "PlayerManagerスクリプト" )]
     private PlayerManagerClass _playerManager = default;
+    [Header ( "スクリプト" )]
+    [SerializeField, Tooltip ( "PlayerManagerスクリプト" )]
+    private PossessionMoneyClass _possessionMoney = default;
 
     /// <summary>
     /// 命令されたこと

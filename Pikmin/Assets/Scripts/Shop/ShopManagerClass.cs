@@ -17,6 +17,9 @@ public class ShopManagerClass : MonoBehaviour
     [Header ( "スクリプト" )]
     [SerializeField, Tooltip ( "RobotManagerのスクリプト" )]
     private RobotsManagerClass _robotsManager = default;
+    [Header ( "スクリプト" )]
+    [SerializeField, Tooltip ( "PossessionMoneyのスクリプト" )]
+    private PossessionMoneyClass _possessionMoney = default;
 
     [Header ( "金額" )]
     [SerializeField, Tooltip ( "ノーマルロボットの金額" )]
@@ -40,14 +43,25 @@ public class ShopManagerClass : MonoBehaviour
 
     #region メソッド  
 
+    /// <summary>
+    /// ロボットを買う
+    /// </summary>
     public void Buy()
     {
 
+        //購入分回る
         for (int i = 0; _normalRobotCount.Value > i; i++)
         {
 
+            //購入分ロボットを作る
             _robotsManager.RobotCreat ();
         }
+
+        //所持金を減らす
+        _possessionMoney.PossessionMoneyCupsule.Value -= _sumPrice.Value;
+        //個数と値段を初期化
+        _normalRobotCount.Value = 0;
+        _sumPrice.Value = 0;
     }
 
     /// <summary>
@@ -55,10 +69,17 @@ public class ShopManagerClass : MonoBehaviour
     /// </summary>
     public void Add()
     {
-        //個数を更新
+
+        //個数と値段を更新
         _normalRobotCount.Value++;
-        //値段を更新
-        _sumPrice.Value += _normalRobotPrice; 
+        _sumPrice.Value += _normalRobotPrice;
+
+        //値段が所持金を超えたとき
+        if (_possessionMoney.PossessionMoneyCupsule.Value < _sumPrice.Value)
+        {
+
+            Delete ();
+        }
     }
 
     /// <summary>
@@ -67,9 +88,8 @@ public class ShopManagerClass : MonoBehaviour
     public void Delete()
     {
 
-        //個数を更新
+        //個数と値段を更新
         _normalRobotCount.Value--;
-        //値段を更新
         _sumPrice.Value -= _normalRobotPrice;
     }
   

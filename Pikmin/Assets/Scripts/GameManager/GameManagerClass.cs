@@ -29,7 +29,7 @@ public class GameManagerClass : MonoBehaviour
     [SerializeField, Tooltip ( "RobotsManagerスクリプト" )]
     private RobotsManagerClass _robotsManager = default;
     [SerializeField, Tooltip ( "moneyManagerスクリプト" )]
-    private MoneyManagerClass _moneyManager = default;
+    private PossessionMoneyClass _moneyManager = default;
 
     [Header ( "InputSystem" )]
     [SerializeField, Tooltip ( "InputSystemのOpenShopが入る" )]
@@ -112,7 +112,7 @@ public class GameManagerClass : MonoBehaviour
         
         }
 
-        _moneyManager.Money.
+        _moneyManager.possessionMoney.
             Subscribe
             (
                 
