@@ -9,14 +9,11 @@ using UnityEngine.AI;
 using System.Collections;
 using UniRx;
 
-public class LuggagesClass : MonoBehaviour
+public class LuggagesClass : BaseLuggageClass
 {
 
     #region 変数  
 
-    [Header ( "スクリプト" )]
-    [SerializeField, Tooltip ( "Carrayのスクリプト" )]
-    private CarrayClass _carrayClass = default;
     [Header ( "ステータス" )]
     [SerializeField, Tooltip ( "荷物の重さ" )]
     private int _weight = default;
@@ -25,13 +22,13 @@ public class LuggagesClass : MonoBehaviour
     [SerializeField, Tooltip ( "持ち上げられる人数" )]
     private int _maxHave = 4;
     [SerializeField, Tooltip ( "金額" )]
-    private int _monay = 200;
+    private int _money = 200;
 
     /// <summary>
-    /// 保管所にいるかの判定
+    /// Activになっているかの判定
     /// </summary>
-    private ReactiveProperty<int> _pay = new ReactiveProperty<int>();
-    public IReadOnlyReactiveProperty<int> Pay => _pay;
+    private ReactiveProperty<bool> _isActiv = new ReactiveProperty<bool> ( true );
+    public IReadOnlyReactiveProperty<bool> IsActiv => _isActiv;
 
     /// <summary>
     /// 自分のAgentが入る
@@ -96,7 +93,7 @@ public class LuggagesClass : MonoBehaviour
         //持たれている数が持たれる最大数を超えたら
         if (_haveCount > _maxHave)
         {
-            print ( "もう持てない" );
+
             //もう持てない判定を返す
             return false;
         }
@@ -108,11 +105,10 @@ public class LuggagesClass : MonoBehaviour
             //動きを停止
             _myAgent.isStopped = true;
             //1秒まった後に持たれている値の計算をしAgentを再開始
-            StartCoroutine ( WaitOne () );
+            StartCoroutine ( WaitHold () );
           
         }
 
-        print ( "まだ持てる" );
         //まだ持てる判定を返す
         return true;
     }
@@ -124,7 +120,6 @@ public class LuggagesClass : MonoBehaviour
     /// <param name="speed">持っていたオブジェクトの速さ</param>
     public void BePlaced(int muscleStrength , float speed)
     {
-        print ( "置く" );
         //持っているオブジェクトの数を減算
         _haveCount--;
         //持っているオブジェクトの筋力の合計を減算
@@ -139,20 +134,9 @@ public class LuggagesClass : MonoBehaviour
             //持っているオブジェクトの合計筋力が重さを下回った時
             if (_weight >= _sumMuscleStrength)
             {
-                print ( "運ばれていない" );
+
                 //運ばれてない判定にする
                 _isCarray = false;
-
-                //降ろされる処理
-                this.transform.position = this.transform.position - (Vector3.up * _liftHeight);
-
-                //子オブジェクトを見ていく
-                foreach (Transform childTransform in this.transform)
-                {
-
-                    //持ち下げられた分上げる
-                    childTransform.position = this.transform.position + (Vector3.up * _liftHeight );
-                }
 
                 //NavMeshを止める処理
                 _carrayClass.StopCarray ( _myAgent );
@@ -185,12 +169,16 @@ public class LuggagesClass : MonoBehaviour
     {
 
         // 3秒待機
-        yield return new WaitForSeconds ( 3 );
+        yield return new WaitForSeconds ( 1.5f );
 
         //運ばれていない判定にする
         _isCarray = false;
         //お金を払う
-        _pay.Value += _monay;
+        _moneyManager.MoneyCupsule.Value = _money;
+
+        //Activになっていない判定にする
+        _isActiv.Value = false;
+
         //消す
         this.gameObject.SetActive ( false );
     }
@@ -199,7 +187,7 @@ public class LuggagesClass : MonoBehaviour
     /// ロボットが荷物を持つまで待つ
     /// </summary>
     /// <returns></returns>
-    private IEnumerator WaitOne()
+    private IEnumerator WaitHold()
     {
 
         // 1秒待機
@@ -207,8 +195,6 @@ public class LuggagesClass : MonoBehaviour
 
         //運ばれてる判定にする
         _isCarray = true;
-        //持ち上げられる処理
-        this.transform.position = this.transform.position + (Vector3.up * _liftHeight);
         //重さで割った加算してきた速さを入れる
         _carraySpeed = _sumCarraySpeed / _weight;
         //NavMeshで運ぶ処理

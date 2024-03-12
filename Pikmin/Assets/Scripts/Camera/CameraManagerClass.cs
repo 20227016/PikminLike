@@ -8,7 +8,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
 
-public class CameraManagerValue : MonoBehaviour
+public class CameraManagerClass : MonoBehaviour
 {
 
     #region 変数  

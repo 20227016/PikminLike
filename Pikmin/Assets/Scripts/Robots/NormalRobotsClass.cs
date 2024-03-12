@@ -1,6 +1,6 @@
 // ---------------------------------------------------------  
 // NormalRobots.cs  
-//   
+//   普通のロボットステータスで行動の処理を変える
 // 作成日:  3/1
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
@@ -33,7 +33,7 @@ public class NormalRobotsClass : BaseRobot　
     /// <summary>
     /// ロボットの状態
     /// </summary>
-    private RobotStatus _enumRobotStatus = RobotStatus.Follow;
+    private RobotStatus _enumRobotStatus = RobotStatus.Idel;
 
     /// <summary>
     /// 探索した結果
@@ -192,6 +192,8 @@ public class NormalRobotsClass : BaseRobot　
                 _isHold = false;
                 //Agentの動きを止める
                 _myAgent.isStopped = true;
+                //Agentの位置や回転を自分のトランスフォームと同じに更新
+                _myAgent.Warp ( this.transform.position );
                 // NavMeshAgentが停止している場合でも、親のトランスフォームに追従するように設定
                 _myAgent.updatePosition = true;
                 _myAgent.updateRotation = true;
@@ -199,7 +201,7 @@ public class NormalRobotsClass : BaseRobot　
                 //親を自分の普通のロボットの親に設定
                 transform.SetParent ( _normalRobotsTrans );
                 //ステータスを待機に切り替える
-                _enumRobotStatus = RobotStatus.Idel;
+                _enumRobotStatus = RobotStatus.Follow;
                 break;
 
             case RobotStatus.Call:
@@ -270,15 +272,20 @@ public class NormalRobotsClass : BaseRobot　
         else if (other.CompareTag ( "StoragePlace" ))
         {
 
-            //2秒待つコルーチンを開始(Robotが保管所の中心まで行く時間)
+            //待った後親をノーマルロボットする
             StartCoroutine ( WaitOne () );
         }
     }
+
+    /// <summary>
+    /// 待った後親をノーマルロボットに変える
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator WaitOne()
     {
 
         // 1秒待機
-        yield return new WaitForSeconds ( 1 );
+        yield return new WaitForSeconds ( 0.5f );
 
         //親を自分の普通のロボットの親に設定
         this.transform.SetParent ( _normalRobotsTrans );

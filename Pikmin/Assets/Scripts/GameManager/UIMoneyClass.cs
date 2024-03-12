@@ -7,16 +7,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 public class UIMoneyClass : MonoBehaviour
 {
 
-    /// <summary>
-    /// 所持金を表示するText
-    /// </summary>
     [Header("Text")]
     [SerializeField,Tooltip("所持金の表示場所")]
-    private Text _text = default;
+    private TextMeshProUGUI _text = default;
 
     /// <summary>
     /// 所持金をUIに表示
@@ -26,7 +24,7 @@ public class UIMoneyClass : MonoBehaviour
     {
 
         //所持金表示
-        _text.text = money.ToString ( );
+        _text.text = $"{money}円";
     }
 
 

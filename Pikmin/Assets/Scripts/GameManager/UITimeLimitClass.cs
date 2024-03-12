@@ -1,12 +1,13 @@
 // ---------------------------------------------------------  
 // UITimeLimitClass.cs  
 //   
-// 作成日:  
-// 作成者:  
+// 作成日:  3/8
+// 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 
 public class UITimeLimitClass : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class UITimeLimitClass : MonoBehaviour
     /// </summary>
     [Header ( "Text" )]
     [SerializeField, Tooltip ( "タイムリミットの表示場所" )]
-    private Text _text = default;
+    private TextMeshProUGUI _text = default;
 
     /// <summary>
     /// タイムリミットをUIに表示

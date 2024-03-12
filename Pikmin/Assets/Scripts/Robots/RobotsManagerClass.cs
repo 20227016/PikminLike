@@ -162,7 +162,7 @@ public class RobotsManagerClass : MonoBehaviour
         ).AddTo(normalRobotsClass);
 
         //生成したオブジェクトのNormalRobotsクラスをリストに格納
-        _followRobotsList.Add(normalRobotsClass);
+        _inActionRobotsList.Add(normalRobotsClass);
 
     }
   

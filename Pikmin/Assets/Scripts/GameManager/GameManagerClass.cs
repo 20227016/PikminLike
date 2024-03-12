@@ -15,19 +15,21 @@ public class GameManagerClass : MonoBehaviour
     #region 変数  
     [Header ( "トランスフォーム" )]
     [SerializeField, Tooltip ( "MainPanelのトランスフォーム" )]
-    private GameObject _mainPanel = default;
+    private Transform _mainPanel = default;
     [SerializeField, Tooltip ( "ShopPanelのトランスフォーム" )]
-    private GameObject _shopPanel = default;
+    private Transform _shopPanel = default;
 
     [Header ( "スクリプト" )]
     [SerializeField, Tooltip ( "PlayerManagerスクリプト" )]
     private PlayerManagerClass _playerManager = default;
     [SerializeField, Tooltip ( "LuggageManagerスクリプト" )]
-    private LuggagesClass _luggageManager = default;
+    private CameraManagerClass _cameraManager = default;
     [SerializeField, Tooltip ( "ShopManagerスクリプト" )]
-    private ShopManager _shopManager = default;
-    [SerializeField, Tooltip ( "RobotsManagerClassスクリプト" )]
+    private ShopManagerClass _shopManager = default;
+    [SerializeField, Tooltip ( "RobotsManagerスクリプト" )]
     private RobotsManagerClass _robotsManager = default;
+    [SerializeField, Tooltip ( "moneyManagerスクリプト" )]
+    private MoneyManagerClass _moneyManager = default;
 
     [Header ( "InputSystem" )]
     [SerializeField, Tooltip ( "InputSystemのOpenShopが入る" )]
@@ -39,7 +41,9 @@ public class GameManagerClass : MonoBehaviour
     [SerializeField, Tooltip ( "秒" )]
     private float _seconds = default;
 
-
+    /// <summary>
+    /// 制限時間
+    /// </summary>
     private ReactiveProperty<float> _timeLimit = new ReactiveProperty<float> ();
     public IReadOnlyReactiveProperty<float> TimeLimit => _timeLimit;
 
@@ -90,24 +94,35 @@ public class GameManagerClass : MonoBehaviour
             _remainingLuggage.Value++;
 
             //中身の値が変わったときに実行
-            luggagesClass.Pay.
+            luggagesClass.IsActiv.
             Subscribe
             (
-                pay =>
+                isActiv =>
                 {
 
-                    AddMoney ( pay );
-                },
-                check =>
-                {
+                    //Activじゃない判定の時
+                    if (isActiv == true)
+                    {
 
+                        return;
+                    }
                     Completed ();
                 }
             ).AddTo (this);
         
         }
 
+        _moneyManager.Money.
+            Subscribe
+            (
+                
+                money =>
+                {
 
+                    _money.Value = money;
+                }
+                
+            ).AddTo ( this );
        
     }
 
@@ -122,19 +137,20 @@ public class GameManagerClass : MonoBehaviour
         {
             case GameStatus.Title:
 
+                //動けるマネージャーの切り替え
                 _playerManager.enabled = false;
-                //_luggageManager.enabled = false;
+                _cameraManager.enabled = false;
                 _robotsManager.enabled = false;
                 _shopManager.enabled = false;
                 break;
 
             case GameStatus.Main:
 
-                _mainPanel.SetActive ( true );
-                _shopPanel.SetActive ( false );
+                _shopPanel.gameObject.SetActive ( false );
 
+                //動けるマネージャーの切り替え
                 _playerManager.enabled = true;
-                //_luggageManager.enabled = true;
+                _cameraManager.enabled = true;
                 _robotsManager.enabled = true;
                 _shopManager.enabled = false;
 
@@ -160,11 +176,12 @@ public class GameManagerClass : MonoBehaviour
 
             case GameStatus.Shop:
 
-                _mainPanel.SetActive ( false );
-                _shopPanel.SetActive ( true );
+                //ショップを表示
+                _shopPanel.gameObject.SetActive ( true );
 
+                //動けるマネージャーの切り替え
                 _playerManager.enabled = false;
-                //_luggageManager.enabled = false;
+                _cameraManager.enabled = false;
                 _robotsManager.enabled = false;
                 _shopManager.enabled = true;
 
@@ -179,24 +196,27 @@ public class GameManagerClass : MonoBehaviour
 
             case GameStatus.Complete:
 
+                //動けるマネージャーの切り替え
                 _playerManager.enabled = false;
-                //_luggageManager.enabled = false;
+                _cameraManager.enabled = false;
                 _robotsManager.enabled = false;
                 _shopManager.enabled = false;
                 break;
 
             case GameStatus.Over:
 
+                //動けるマネージャーの切り替え
                 _playerManager.enabled = false;
-                //_luggageManager.enabled = false;
+                _cameraManager.enabled = false;
                 _robotsManager.enabled = false;
                 _shopManager.enabled = false;
                 break;
 
             case GameStatus.Result:
 
+                //動けるマネージャーの切り替え
                 _playerManager.enabled = false;
-                //_luggageManager.enabled = false;
+                _cameraManager.enabled = false;
                 _robotsManager.enabled = false;
                 _shopManager.enabled = false;
                 break;
@@ -204,6 +224,10 @@ public class GameManagerClass : MonoBehaviour
  
     }
 
+    /// <summary>
+    /// 所持金の加算
+    /// </summary>
+    /// <param name="money"></param>
     private void AddMoney(int money)
     {
         //所持金加算

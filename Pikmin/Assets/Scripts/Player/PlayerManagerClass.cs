@@ -7,6 +7,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 using UniRx;
 
 
@@ -21,6 +22,8 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     private Transform _cursorTrans = default;
     [SerializeField, Tooltip ( "RadioWavesオブジェクトのトランスフォーム" )]
     private Transform _radioWavesTrans = default;
+    [SerializeField, Tooltip ( "PlayerGroupオブジェクトのトランスフォーム" )]
+    private Transform _playerGroupTrans = default;
 
     [Header ( "スクリプト" )]
     [SerializeField, Tooltip ( "Moveスクリプト" )]
@@ -247,7 +250,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
                     Quaternion targetRota = Quaternion.LookRotation ( _moveVec );
 
                     //移動先確認
-                    _moveHit = _moveCheckClass.Check ( this.transform , _moveVec );
+                    _moveHit = _moveCheckClass.Check ( this.transform );
 
                     //回転
                     _rotateClass.Rotate ( this.transform , targetRota , _moveRoteSpeed );
@@ -255,6 +258,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
                     //移動先に物がないときの処理
                     if (_moveHit.collider == false)
                     {
+
                         //移動
                         _wakeClass.Walk ( this.transform , _moveVec , _speed );
                     }
@@ -387,8 +391,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     private void Put()
     {
 
-        //持っている判定にする
-        _enumPlayerStatus = PlayerStatus.Put;
+        
 
         //持った荷物のオブジェクトのトランスフォームを取得
         Transform luggagTrans = _moveHit.collider.gameObject.transform;
@@ -396,10 +399,34 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
         //荷物を離す
         _putClass.Put ( _muscleStrength , _speed , luggagTrans );
 
-        //親となっている荷物を離す
-        transform.SetParent ( null );
+        //親となっている荷物を離しプレイヤーグループを親とする
+        transform.SetParent ( _playerGroupTrans );
+
+        //持ってない判定にする
+        _enumPlayerStatus = PlayerStatus.Put;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+
+        //当たったものが保管所の時
+        if (other.CompareTag ( "StoragePlace" )　&& _enumPlayerStatus == PlayerStatus.Hold)
+        {
+
+            //2秒待つコルーチンを開始(Robotが保管所の中心まで行く時間)
+            StartCoroutine ( WaitOne () );
+        }
+    }
+
+    private IEnumerator WaitOne()
+    {
+
+        // 1秒待機
+        yield return new WaitForSeconds ( 0.5f );
+
+        //荷物を離す
+        Put ();
+    }
 
     #endregion
 }

@@ -30,8 +30,12 @@ public class CarrayClass : MonoBehaviour
         //移動速度を設定
         agent.speed = speed;
 
+        //地面からの高さ
+        const float HEIGHT = 0.7f;
+
         // 目標地点を設定
-        agent.destination = _storagePlace.position;
+        agent.destination = _storagePlace.position + Vector3.up * HEIGHT;
+
     }
 
     /// <summary>
