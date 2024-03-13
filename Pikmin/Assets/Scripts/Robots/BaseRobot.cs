@@ -55,7 +55,7 @@ public class BaseRobot : MonoBehaviour
     {
 
         //Playerオブジェクトのトランスフォームを取得
-        _playerTrans = GameObject.Find ( "Player" ).transform;
+        _playerTrans = GameObject.FindWithTag ( "Player" ).transform;
         //Cursorオブジェクトのトランスフォームを取得
         _cursorTrans = GameObject.Find ( "Cursor" ).transform;
         //NormalRobotsオブジェクトのトランスフォームを取得
