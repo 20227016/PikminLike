@@ -619,6 +619,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2788778949281851673}
   - component: {fileID: 6961852712518688454}
+  - component: {fileID: 5681236834774390736}
   m_Layer: 0
   m_Name: John_Basic_version
   m_TagString: Untagged
@@ -672,6 +673,27 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.92, z: 0}
+--- !u!95 &5681236834774390736
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166373448597378103}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 2c4940e26868a3746ab43355333dfdda, type: 3}
+  m_Controller: {fileID: 9100000, guid: 5115b4126ec254843b2b19a3927e9b1c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1209975326845220543
 GameObject:
   m_ObjectHideFlags: 0
