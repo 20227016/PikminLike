@@ -36,6 +36,12 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     private HoldClass _holdClass = default;
     [SerializeField, Tooltip ( "Putスクリプト" )]
     private PutClass _putClass = default;
+    [SerializeField, Tooltip ( "PlayerAnimetionスクリプト" )]
+    private PlayerAnimationClass _playerAnimation = default;
+
+    [Header ( "アニメーター" )]
+    [SerializeField, Tooltip ( "プレイヤーのアニメーター" )]
+    private Animator _playerAnimator = default;
 
     [Header ( "InputSystem(Player)" )]
     [SerializeField, Tooltip ( "InputSystemのMoveが入る" )]
@@ -47,7 +53,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     [SerializeField, Tooltip ( "InputSystemのSelectが入る" )]
     private InputActionReference _onSelect = default;
 
-    [Header ( "ステータス" )]
+    [Header ( "データ" )]
     [SerializeField, Tooltip ( "歩く速さ" )]
     private float _speed = 10f;
     [SerializeField, Tooltip ( "移動時の回転する速さ" )]
@@ -61,6 +67,7 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     [SerializeField, Tooltip ( "電波の最大の広さ" )]
     private float _maxExpansion = 5;
 
+   
     #endregion
 
     #region インスペクター非表示
@@ -144,8 +151,83 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
     private void Update()
     {
 
-        //プレイヤーの処理
-        PlayerProcess ();
+        //プレイヤーのステータスによる処理分け
+        switch (_enumPlayerStatus)
+        {
+
+            //モノを置いている状態
+            case PlayerStatus.Put:
+
+                //移動ボタンが入力判定の時
+                if (_onMove.action.IsPressed ())
+                {
+
+                    //目的の方向を元に、プレイヤーの向く方向を取得
+                    Quaternion targetRota = Quaternion.LookRotation ( _moveVec );
+
+                    //移動先確認
+                    _moveHit = _moveCheckClass.Check ( this.transform );
+
+                    //回転
+                    _rotateClass.Rotate ( this.transform , targetRota , _moveRoteSpeed );
+
+                    //移動先に物がないときの処理
+                    if (_moveHit.collider == false)
+                    {
+
+                        //移動
+                        _wakeClass.Walk ( this.transform , _moveVec , _speed );
+                        _playerAnimation.RunAnime (_playerAnimator);
+                    }
+                }
+                else
+                {
+                    _playerAnimation.IdelAnime ( _playerAnimator );
+
+                    //目標の位置
+                    Vector3 targetPos = _cursorTrans.position - this.transform.position;
+
+                    //Y軸の値を無視する
+                    targetPos.y = 0;
+
+                    //カーソルの向きを向く
+                    Quaternion targetRote = Quaternion.LookRotation ( targetPos );
+
+                    //回転
+                    _rotateClass.Rotate ( this.transform , targetRote , _cursorRoteSpeed );
+                }
+
+                //目の前に荷物があった時
+                if (_moveHit.collider == true && _moveHit.collider.CompareTag ( "Luggage" ))
+                {
+
+                    //持つボタンが押されたらかつ何も持っていなかったら
+                    if (_onHoldOrGotoLocation.action.WasPressedThisFrame ())
+                    {
+
+                        //荷物を持つ処理
+                        Hold ();
+                        _playerAnimation.CarrayRunAnime ( _playerAnimator );
+                    }
+                }
+
+                //カーソルの処理
+                CursorProcess ();
+                break;
+
+            //モノを持っている状態
+            case PlayerStatus.Hold:
+
+                //置くボタンが押されたら
+                if (_onPutOrCall.action.WasPressedThisFrame ())
+                {
+
+                    //荷物を置く処理
+                    Put ();
+                }
+
+                break;
+        }
     }
 
     /// <summary>
@@ -227,87 +309,6 @@ public class PlayerManagerClass : MonoBehaviour, IGetValue
         //Enumの変更
         _enumSelectStatus.Value = (SelectStatus)_nowSelectNober;
 
-    }
-
-    /// <summary>
-    /// プレイヤーが選ばれているときの処理
-    /// </summary>
-    private void PlayerProcess()
-    {
-
-        //プレイヤーのステータスによる処理分け
-        switch (_enumPlayerStatus)
-        {
-
-            //モノを置いている状態
-            case PlayerStatus.Put:
-
-                //移動ボタンが入力判定の時
-                if (_onMove.action.IsPressed ())
-                {
-
-                    //目的の方向を元に、プレイヤーの向く方向を取得
-                    Quaternion targetRota = Quaternion.LookRotation ( _moveVec );
-
-                    //移動先確認
-                    _moveHit = _moveCheckClass.Check ( this.transform );
-
-                    //回転
-                    _rotateClass.Rotate ( this.transform , targetRota , _moveRoteSpeed );
-
-                    //移動先に物がないときの処理
-                    if (_moveHit.collider == false)
-                    {
-
-                        //移動
-                        _wakeClass.Walk ( this.transform , _moveVec , _speed );
-                    }
-                }
-                else
-                {
-
-                    //目標の位置
-                    Vector3 targetPos = _cursorTrans.position - this.transform.position;
-
-                    //Y軸の値を無視する
-                    targetPos.y = 0;
-
-                    //カーソルの向きを向く
-                    Quaternion targetRote = Quaternion.LookRotation( targetPos );
-
-                    //回転
-                    _rotateClass.Rotate ( this.transform , targetRote , _cursorRoteSpeed );
-                }
-
-                //目の前に荷物があった時
-                if (_moveHit.collider == true && _moveHit.collider.CompareTag ( "Luggage" ))
-                {
-
-                    //持つボタンが押されたらかつ何も持っていなかったら
-                    if (_onHoldOrGotoLocation.action.WasPressedThisFrame ())
-                    {
-                        //荷物を持つ処理
-                        Hold ();
-                    }
-                }
-
-                //カーソルの処理
-                CursorProcess ();
-                break;
-
-            //モノを持っている状態
-            case PlayerStatus.Hold:
-
-                //置くボタンが押されたら
-                if (_onPutOrCall.action.WasPressedThisFrame ())
-                {
-
-                    //荷物を置く処理
-                    Put ();
-                }
-
-                break;
-        }
     }
 
     /// <summary>

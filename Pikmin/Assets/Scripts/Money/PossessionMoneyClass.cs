@@ -11,9 +11,8 @@ using UniRx;
 public class PossessionMoneyClass : MonoBehaviour
 {
 
-    /// <summary>
-    /// 所持金
-    /// </summary>
+    [Header("所持金")]
+    [SerializeField,Tooltip("開始時の所持金")]
     private ReactiveProperty<int> _possessionMoney = new ReactiveProperty<int>(100);
     public IReadOnlyReactiveProperty<int> possessionMoney => _possessionMoney;
 

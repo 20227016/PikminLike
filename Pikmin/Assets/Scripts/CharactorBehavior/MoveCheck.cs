@@ -35,6 +35,7 @@ public class MoveCheckClass : MonoBehaviour
         if (_hit.collider != null)
         {
 
+            print ( "BoxCast" );
             return _hit;
         }
 
@@ -55,7 +56,7 @@ public class MoveCheckClass : MonoBehaviour
     }
 
     /// <summary>
-    /// BoxCastを打つ
+    /// 正面にBoxCastを打つ
     /// </summary>
     /// <param name="moveDirection">移動するオブジェクトのトランスフォーム</param>
     private void BoxCast(Transform objTransform )
@@ -64,14 +65,19 @@ public class MoveCheckClass : MonoBehaviour
         //Rayの開始地点
         Vector3 origin = objTransform.position + objTransform.forward * objTransform.localScale.z;
 
-        //BoxCastの横幅の補填
+        //BoxCastの縦横幅の補填
         float widthOffset = 1f;
+        float heightoffset = -0.1f;
 
         //BoxCastの奥幅
         float forwardValue = 0.5f;
 
         //ボックスキャストのサイズ
-        Vector3 cubeSize = new Vector3 ( objTransform.localScale.x + widthOffset , objTransform.localScale.y , forwardValue );
+        Vector3 cubeSize = Vector3.right * (objTransform.localScale.x + widthOffset) +
+                           Vector3.up * (objTransform.localScale.y / 5 + heightoffset) +
+                           Vector3.forward * forwardValue;
+        print ( origin.y );
+        print ( (objTransform.localScale.y / 5) + heightoffset );
 
         //Rayの距離
         float dist = 0.1f;

@@ -1,0 +1,229 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Player
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: 2S_Body
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_L_Thigh
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_L_Thigh/2S_L_Calf
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_L_Thigh/2S_L_Calf/2S_Copyright_025
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_L_Thigh/2S_L_Calf/2S_L_CalfTwist01
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_L_Thigh/2S_L_Calf/2S_L_CalfTwist01/2S_Copyright_027
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_L_Thigh/2S_L_Calf/2S_L_Foot
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_L_Thigh/2S_L_Calf/2S_L_Foot/2S_Copyright_029
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_L_Thigh/2S_L_Calf/2S_L_Foot/2S_L_ToeBase
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_L_Thigh/2S_L_Calf/2S_L_Foot/2S_L_ToeBase/2S_Copyright_035
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_L_Thigh/2S_L_Calf/2S_L_Foot/2S_L_ToeBase/2S_Copyright_036
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_L_Thigh/2S_L_Calf/2S_L_Foot/2S_L_ToeBase/2S_Copyright_037
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_L_Thigh/2S_L_Calf/2S_L_Foot/2S_L_ToeBase/2S_Copyright_038
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_L_Thigh/2S_L_Calf/2S_L_Foot/2S_L_ToeBase/2S_Copyright_039
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_L_Thigh/2S_L_ThighTwist01
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_L_Thigh/2S_L_ThighTwist01/2S_Copyright_024
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_R_Thigh
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_R_Thigh/2S_R_Calf
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_R_Thigh/2S_R_Calf/2S_Copyright_024 1
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_R_Thigh/2S_R_Calf/2S_R_CalfTwist01
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_R_Thigh/2S_R_Calf/2S_R_CalfTwist01/2S_Copyright_026
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_R_Thigh/2S_R_Calf/2S_R_Foot
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_R_Thigh/2S_R_Calf/2S_R_Foot/2S_Copyright_028
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_R_Thigh/2S_R_Calf/2S_R_Foot/2S_R_ToeBase
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_R_Thigh/2S_R_Calf/2S_R_Foot/2S_R_ToeBase/2S_Copyright_030
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_R_Thigh/2S_R_Calf/2S_R_Foot/2S_R_ToeBase/2S_Copyright_031
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_R_Thigh/2S_R_Calf/2S_R_Foot/2S_R_ToeBase/2S_Copyright_032
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_R_Thigh/2S_R_Calf/2S_R_Foot/2S_R_ToeBase/2S_Copyright_033
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_R_Thigh/2S_R_Calf/2S_R_Foot/2S_R_ToeBase/2S_Copyright_034
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_R_Thigh/2S_R_ThighTwist01
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Pelvis/2S_R_Thigh/2S_R_ThighTwist01/2S_Copyright_023
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist
+    m_Weight: 1
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_Copyright_005
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_ForearmTwist01
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_ForearmTwist01/2S_Copyright_006
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand/2S_L_Index1
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand/2S_L_Index1/2S_L_Index2
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand/2S_L_Index1/2S_L_Index2/2S_Copyright_008
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand/2S_L_Mid1
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand/2S_L_Mid1/2S_L_Mid2
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand/2S_L_Mid1/2S_L_Mid2/2S_Copyright_009
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand/2S_L_Pinky1
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand/2S_L_Pinky1/2S_L_Pinky2
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand/2S_L_Pinky1/2S_L_Pinky2/2S_Copyright_011
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand/2S_L_Ring1
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand/2S_L_Ring1/2S_L_Ring2
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand/2S_L_Ring1/2S_L_Ring2/2S_Copyright_010
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand/2S_L_Thumb1
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand/2S_L_Thumb1/2S_L_Thumb2
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2S_L_Forearm/2S_L_Hand/2S_L_Thumb1/2S_L_Thumb2/2S_Copyright_007
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2Sh_L_UpperarmTwist01
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_Clavicle/2S_L_Upperarm/2Sh_L_UpperarmTwist01/2S_Copyright_004
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_RibsTwist
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_L_RibsTwist/2S_Copyright_021
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_NeckTwist01
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_NeckTwist01/2S_NeckTwist02
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_NeckTwist01/2S_NeckTwist02/2S_Head
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_NeckTwist01/2S_NeckTwist02/2S_Head/2S_FacialBone
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_NeckTwist01/2S_NeckTwist02/2S_Head/2S_FacialBone/2S_Copyright_000
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_NeckTwist01/2S_NeckTwist02/2S_Head/2S_FacialBone/2S_JawRoot
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_NeckTwist01/2S_NeckTwist02/2S_Head/2S_FacialBone/2S_JawRoot/2S_Copyright_002
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_NeckTwist01/2S_NeckTwist02/2S_Head/2S_FacialBone/2S_JawRoot/2S_Tongue01
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_NeckTwist01/2S_NeckTwist02/2S_Head/2S_FacialBone/2S_JawRoot/2S_Tongue01/2S_Tongue02
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_NeckTwist01/2S_NeckTwist02/2S_Head/2S_FacialBone/2S_JawRoot/2S_Tongue01/2S_Tongue02/2S_Copyright_003
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_NeckTwist01/2S_NeckTwist02/2S_Head/2S_FacialBone/2S_L_Eye
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_NeckTwist01/2S_NeckTwist02/2S_Head/2S_FacialBone/2S_UpperJaw
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_NeckTwist01/2S_NeckTwist02/2S_Head/2S_FacialBone/2S_UpperJaw/2S_Copyright_001
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_Copyright_013
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_ForearmTwist01
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_ForearmTwist01/2S_Copyright_014
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand/2S_R_Index1
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand/2S_R_Index1/2S_R_Index2
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand/2S_R_Index1/2S_R_Index2/2S_Copyright_016
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand/2S_R_Mid1
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand/2S_R_Mid1/2S_R_Mid2
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand/2S_R_Mid1/2S_R_Mid2/2S_Copyright_017
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand/2S_R_Pinky1
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand/2S_R_Pinky1/2S_R_Pinky2
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand/2S_R_Pinky1/2S_R_Pinky2/2S_Copyright_019
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand/2S_R_Ring1
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand/2S_R_Ring1/2S_R_Ring2
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand/2S_R_Ring1/2S_R_Ring2/2S_Copyright_018
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand/2S_R_Thumb1
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand/2S_R_Thumb1/2S_R_Thumb2
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_Forearm/2S_R_Hand/2S_R_Thumb1/2S_R_Thumb2/2S_Copyright_015
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_UpperarmTwist01
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_Clavicle/2S_R_Upperarm/2S_R_UpperarmTwist01/2S_Copyright_012
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_RibsTwist
+    m_Weight: 0
+  - m_Path: 2S_BoneRoot/2S_Hip/2S_Waist/2S_Spine01/2S_Spine02/2S_R_RibsTwist/2S_Copyright_020
+    m_Weight: 0
+  - m_Path: 2S_Boots
+    m_Weight: 0
+  - m_Path: 2S_Eye
+    m_Weight: 0
+  - m_Path: 2S_Occlusion
+    m_Weight: 0
+  - m_Path: 2S_Teeth
+    m_Weight: 0
+  - m_Path: 2S_Tongue
+    m_Weight: 0
+  - m_Path: 2S_Uniform
+    m_Weight: 0

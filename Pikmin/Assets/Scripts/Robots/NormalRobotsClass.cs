@@ -31,6 +31,16 @@ public class NormalRobotsClass : BaseRobot　
     private PutClass _put = default;
 
     /// <summary>
+    /// アニメーション実行のクラス
+    /// </summary>
+    private NormalRobotAnimetionCrass _normalRobotAnimetion = default;
+
+    /// <summary>
+    /// ノーマルロボットのアニメーター
+    /// </summary>
+    private Animator _normalRobotAnimator = default;
+
+    /// <summary>
     /// ロボットの状態
     /// </summary>
     private RobotStatus _enumRobotStatus = RobotStatus.Idel;
@@ -76,6 +86,10 @@ public class NormalRobotsClass : BaseRobot　
         _hold = GameObject.Find ( "Hold" ).GetComponent<HoldClass> ();
         //置くスクリプト取得
         _put = GameObject.Find ( "Put" ).GetComponent<PutClass> ();
+        //アニメーション実行クラス取得
+        _normalRobotAnimetion = GameObject.Find ( "NormalRobotAnimetion" ).GetComponent<NormalRobotAnimetionCrass>();
+        //アニメーター取得
+        _normalRobotAnimator = this.GetComponent<Animator> ();
     }
 
 
@@ -87,7 +101,6 @@ public class NormalRobotsClass : BaseRobot　
         {
 
             case RobotStatus.Idel:
-
                 //Collで呼ばれるまで変わらない
                 break;
 
@@ -170,6 +183,7 @@ public class NormalRobotsClass : BaseRobot　
                         _myAgent.updateRotation = false;
                         //荷物を持つ処理
                         _isPut = _hold.Hold ( _muscleStrength , _speed , _hit.collider.transform );
+                        _normalRobotAnimetion.CarrayRunAnima ( _normalRobotAnimator );
                     }
 
                     //荷物を置く必要があるとき
@@ -178,6 +192,7 @@ public class NormalRobotsClass : BaseRobot　
 
                         //ステータスを奥に切り替える
                         _enumRobotStatus = RobotStatus.Put;
+                        _normalRobotAnimetion.RunAnima ( _normalRobotAnimator );
                     }
                 }
 
@@ -200,8 +215,9 @@ public class NormalRobotsClass : BaseRobot　
                 _put.Put ( _muscleStrength , _speed , _hit.collider.transform );
                 //親を自分の普通のロボットの親に設定
                 transform.SetParent ( _normalRobotsTrans );
-                //ステータスを待機に切り替える
+                //ステータスをついて行くに切り替える
                 _enumRobotStatus = RobotStatus.Follow;
+                _normalRobotAnimetion.RunAnima ( _normalRobotAnimator );
                 break;
 
             case RobotStatus.Call:
@@ -223,6 +239,7 @@ public class NormalRobotsClass : BaseRobot　
 
                     //ステータスをついて行くに切り替える
                     _enumRobotStatus = RobotStatus.Follow;
+                    _normalRobotAnimetion.RunAnima ( _normalRobotAnimator );
                 }
 
                 break;
@@ -237,6 +254,7 @@ public class NormalRobotsClass : BaseRobot　
 
         //ステータスを目的の場所まで移動に切り替え
         _enumRobotStatus = RobotStatus.GoToLocation;
+        _normalRobotAnimetion.RunAnima ( _normalRobotAnimator );
     }
 
 
@@ -248,6 +266,7 @@ public class NormalRobotsClass : BaseRobot　
 
         //ステータスを[呼ばれる]に切り替え
         _enumRobotStatus = RobotStatus.Call;
+        _normalRobotAnimetion.RunAnima ( _normalRobotAnimator );
     }
 
 

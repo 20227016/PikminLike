@@ -10,13 +10,13 @@ using System.Collections;
 public class CameraTarget 
 {
     //カメラのトランスフォームのコピー
-    private Transform _cameraTaransCopy = default;
+    private Transform _cameraOffset;
     //プレイヤーの初期の高さ
     private const float CONST_HEIGHT = 2.5f; 
 
     public CameraTarget()
     {
-        _cameraTaransCopy = default;
+        _cameraOffset = default;
     }
 
     /// <summary>
@@ -29,17 +29,16 @@ public class CameraTarget
     /// <returns>移動先</returns>
     public Transform Target( Transform playerTrans ,Transform targetTrans, float inputValue)
     {
+   
 
         //プレイヤーの位置を加算
-        targetTrans.position = ((_cameraTaransCopy.position.x + playerTrans.position.x)  * Vector3.right  ) +
-                               ((_cameraTaransCopy.position.y + playerTrans.position.y)  * Vector3.up     ) +
-                               ((_cameraTaransCopy.position.z + playerTrans.position.z)  * Vector3.forward);
+        targetTrans.position = _cameraOffset.position + playerTrans.position  ;
 
         //プレイヤーを中心に回転
         targetTrans.RotateAround ( playerTrans.position , Vector3.up , inputValue * Time.deltaTime);
 
         //回転した後のベクトルからプレイヤーのベクトルを抜きコピーに代入
-        _cameraTaransCopy.position = targetTrans.position - playerTrans.position;
+        _cameraOffset.position = targetTrans.position - playerTrans.position;
 
         //ターゲットの位置を返す
         return targetTrans;
@@ -48,11 +47,10 @@ public class CameraTarget
     /// <summary>
     /// カメラのトランスフォームの値をコピーする
     /// </summary>
-    public void CopyTransformValues(Transform cameraTrans)
+    public void CopyTransformValues(float transY , float transZ)
     {
-        _cameraTaransCopy = new GameObject ( "CameraTransCopy" ).transform;
-        _cameraTaransCopy.position = cameraTrans.position;
-        _cameraTaransCopy.rotation = cameraTrans.rotation;
-        _cameraTaransCopy.localScale = cameraTrans.localScale;
+        _cameraOffset = new GameObject ( "CameraTransCopy" ).transform;
+        _cameraOffset.position = Vector3.up * transY +
+                                 Vector3.forward * transZ;
     }
 }
